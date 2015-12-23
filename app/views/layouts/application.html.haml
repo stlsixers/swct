@@ -1,0 +1,14 @@
+!!!
+%html
+	%head
+		%title SWCT Inventory App
+		= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+		= javascript_include_tag 'application', 'data-turbolinks-track' => true
+		= csrf_meta_tags
+	%body
+		.navbar.navbar-inverse
+			.container
+				= link_to 'Inventory', '#', class: 'btn btn-default navbar-btn'
+				= link_to 'Add Pulls', '#', class: 'btn btn-default navbar-btn'
+				= link_to 'Orders', '#', class: 'btn btn-default navbar-btn'
+		= yield

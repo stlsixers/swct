@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  root 'pages#home'
+  get '/card_sets/new' => 'card_sets#new'
+  # post '/card_sets' => 'card_sets#create'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
