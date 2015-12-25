@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151225043740) do
+ActiveRecord::Schema.define(version: 20151225073925) do
 
   create_table "card_sets", force: :cascade do |t|
     t.string   "name"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20151225043740) do
   end
 
   create_table "machines", force: :cascade do |t|
-    t.string   "category"
+    t.integer  "category"
     t.integer  "number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
