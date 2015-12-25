@@ -1,0 +1,16 @@
+.row
+	.col-md-8.col-md-offset-2
+		%h1 Card Sets
+		%p= link_to 'Create', new_card_set_path, class: 'btn btn-primary'
+		%table.table.table-bordered.table-striped
+			%thead
+				%th Set Name
+				%th Edit
+				%th Delete
+
+			%tbody
+				- @card_sets.each do |c|
+					%tr
+						%td= c.name
+						%td= link_to 'Edit', edit_card_set_path(c)
+						%td= link_to 'Delete',  card_set_path(c),  method: :delete, data: { confirm: 'Are you sure?' }

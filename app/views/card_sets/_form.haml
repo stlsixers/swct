@@ -1,0 +1,9 @@
+= form_for @card_set do |f|
+	.form-group
+		- if @card_set.name?
+			= f.label :name, 'Set Name', :value => @card_set.name, class: 'control-label'
+			= f.text_field :name, class: 'form-control'
+		-else
+			= f.label :name, 'Set Name', class: 'control-label'
+			= f.text_field :name, class: 'form-control'
+	= f.submit 'Submit', class: 'btn btn-default'

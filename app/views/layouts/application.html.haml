@@ -8,6 +8,8 @@
 	%body
 		.navbar.navbar-inverse
 			.container
+				= link_to 'Home', root_path, class: 'navbar-brand'
+				= link_to 'Card Sets', card_sets_path, class: 'btn btn-default navbar-btn'
 				= link_to 'Inventory', '#', class: 'btn btn-default navbar-btn'
 				= link_to 'Add Pulls', '#', class: 'btn btn-default navbar-btn'
 				= link_to 'Orders', '#', class: 'btn btn-default navbar-btn'
