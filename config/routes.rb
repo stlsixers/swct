@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
   root 'pages#home'
-  resources :card_sets
-  # post '/card_sets' => 'card_sets#create'
+  resources :card_sets do
+    resources :cards
+  end
+  resources :machines
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,0 +1,20 @@
+.row
+	.col-md-8.col-md-offset-2
+		%h1= @card_set.name
+		%p= link_to 'Add New Card to Set', new_card_set_card_path(@card_set), class: 'btn btn-primary'
+		%table.table.table-bordered.table-hover
+			%thead
+				%th Card Name
+				%th Total Count
+				%th Notes
+				%th Edit
+				%th Delete
+
+			%tbody
+				- @cards.each do |c|
+					%tr
+						%td= c.name
+						%td not yet sure
+						%td= c.notes
+						%td= link_to 'Edit', edit_card_set_card_path(id: c.id), class: 'btn btn-success'
+						%td= link_to 'Delete',  card_set_card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

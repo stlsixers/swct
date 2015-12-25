@@ -20,7 +20,7 @@ class CardSetsController < ApplicationController
 
 	def update
 		@card_set = CardSet.find(params[:id])
-		@card_set.update(card_set_params)
+		@card_set.update_attributes(card_set_params)
 		redirect_to card_sets_path
 	end
 

@@ -1,0 +1,19 @@
+.row
+	.col-md-8.col-md-offset-2
+		%h1 Machines/Devices
+		%p= link_to 'Create New Machine/Device', new_machine_path, class: 'btn btn-primary'
+		%table.table.table-bordered.table-hover
+			%thead
+				%th Machine Name
+				%th Machine Category (Tita, Tito, Device)
+				%th Edit
+				%th Delete
+
+			/ %tbody
+			/ 	- @cards.each do |c|
+			/ 		%tr
+			/ 			%td= c.name
+			/ 			%td not yet sure
+			/ 			%td= c.notes
+			/ 			%td= link_to 'Edit', edit_card_set_card_path(id: c.id), class: 'btn btn-success'
+			/ 			%td= link_to 'Delete',  card_set_card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

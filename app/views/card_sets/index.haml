@@ -1,10 +1,12 @@
 .row
 	.col-md-8.col-md-offset-2
-		%h1 Card Sets
-		%p= link_to 'Create', new_card_set_path, class: 'btn btn-primary'
-		%table.table.table-bordered.table-striped
+		%h1 Cards
+		%p= link_to 'Create New Set', new_card_set_path, class: 'btn btn-primary'
+		%table.table.table-bordered.table-hover
 			%thead
 				%th Set Name
+				%th View Cards in Set
+				%th Add Card to Set
 				%th Edit
 				%th Delete
 
@@ -12,5 +14,7 @@
 				- @card_sets.each do |c|
 					%tr
 						%td= c.name
-						%td= link_to 'Edit', edit_card_set_path(c)
-						%td= link_to 'Delete',  card_set_path(c),  method: :delete, data: { confirm: 'Are you sure?' }
+						%td= link_to 'View All Cards', card_set_cards_path(c), class: 'btn btn-primary'
+						%td= link_to 'Add New Card', new_card_set_card_path(c), class: 'btn btn-primary'
+						%td= link_to 'Edit', edit_card_set_path(c), class: 'btn btn-success'
+						%td= link_to 'Delete',  card_set_path(c),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
