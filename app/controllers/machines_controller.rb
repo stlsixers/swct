@@ -11,6 +11,7 @@ class MachinesController < ApplicationController
 	def create
 		@machine = Machine.create(machine_params)
 		@machine.save
+		flash[:notice] = "Machine successfully created"
 		redirect_to machines_path
 	end
 
@@ -21,14 +22,15 @@ class MachinesController < ApplicationController
 	def update
 		@machine = Machine.find(params[:id])
 		@machine.update_attributes(machine_params)
+		flash[:notice] = "Machine successfully updated"
 		redirect_to machines_path
 	end
 
 	def destroy
-		@card_set = CardSet.find(params[:card_set_id])
-		@card = Card.find(params[:id])
-		@card.destroy
-		redirect_to card_set_cards_path(@card_set)
+		@machine = Machine.find(params[:id])
+		@machine.destroy
+		flash[:notice] = "Machine successfully deleted"
+		redirect_to machines_path
 	end
 
 	private

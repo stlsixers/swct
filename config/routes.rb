@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   resources :card_sets do
     resources :cards
   end
-  resources :machines
+  resources :machines do
+    resources :cards
+  end
+  resources :cards
+  resources :inventories
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

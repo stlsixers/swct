@@ -11,6 +11,7 @@ class CardSetsController < ApplicationController
 	def create
 		@card_set = CardSet.new(card_set_params)
 		@card_set.save
+		flash[:notice] = "Card Set successfully created"
 		redirect_to card_sets_path
 	end
 
@@ -21,12 +22,14 @@ class CardSetsController < ApplicationController
 	def update
 		@card_set = CardSet.find(params[:id])
 		@card_set.update_attributes(card_set_params)
+		flash[:notice] = "Card Set successfully updated"
 		redirect_to card_sets_path
 	end
 
 	def destroy
 		@card_set = CardSet.find(params[:id])
 		@card_set.destroy
+		flash[:notice] = "Card Set successfully deleted"
 		redirect_to card_sets_path
 	end
 

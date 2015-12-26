@@ -11,6 +11,10 @@
 				= link_to 'Home', root_path, class: 'navbar-brand'
 				= link_to 'Card Management', card_sets_path, class: 'btn btn-default navbar-btn'
 				= link_to 'Machine/Device Management', machines_path, class: 'btn btn-default navbar-btn'
-				= link_to 'Add Pulls', '#', class: 'btn btn-default navbar-btn'
+				= link_to 'Inventory Management', inventories_path, class: 'btn btn-default navbar-btn'
 				= link_to 'Orders', '#', class: 'btn btn-default navbar-btn'
-		= yield
+		.row
+			.col-md-10.col-md-offset-1
+				- if flash[:notice]
+					.alert.alert-success= flash[:notice]
+				= yield

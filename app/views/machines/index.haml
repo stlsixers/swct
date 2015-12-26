@@ -1,18 +1,16 @@
-.row
-	.col-md-8.col-md-offset-2
-		%h1 Machines/Devices
-		%p= link_to 'Create New Machine/Device', new_machine_path, class: 'btn btn-primary'
-		%table.table.table-bordered.table-hover
-			%thead
-				%th Machine Category (Tita, Tito, Device)
-				%th Machine Number
-				%th Edit
-				%th Delete
+%h1 Machines/Devices
+%p= link_to 'Create New Machine/Device', new_machine_path, class: 'btn btn-primary'
+%table.table.table-bordered.table-hover
+	%thead
+		%th Machine Category
+		%th Machine Number (click to view all cards in machine)
+		%th Edit
+		%th Delete
 
-			%tbody
-				- @machines.each do |m|
-					%tr
-						%td= Category.find(m.category).try(:title)
-						%td= m.number
-						%td= link_to 'Edit', edit_machine_path(m), class: 'btn btn-success'
-						%td= link_to 'Delete',  machine_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+	%tbody
+		- @machines.each do |m|
+			%tr
+				%td= Category.find(m.category).try(:title)
+				%td= link_to m.number, machine_cards_path(m)
+				%td= link_to 'Edit', edit_machine_path(m), class: 'btn btn-success'
+				%td= link_to 'Delete',  machine_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

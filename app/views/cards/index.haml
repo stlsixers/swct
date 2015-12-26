@@ -1,20 +1,43 @@
-.row
-	.col-md-8.col-md-offset-2
-		%h1= @card_set.name
-		%p= link_to 'Add New Card to Set', new_card_set_card_path(@card_set), class: 'btn btn-primary'
-		%table.table.table-bordered.table-hover
-			%thead
-				%th Card Name
-				%th Total Count
-				%th Notes
-				%th Edit
-				%th Delete
+- if @card_set
+	%h1= @card_set.name
+	%p= link_to 'Add New Card to This Set', new_card_set_card_path(@card_set), class: 'btn btn-primary'
+	%table.table.table-bordered.table-hover
+		%thead
+			%th Card Name (click to view machines that have this card)
+			%th Total Count
+			%th Notes
+			%th Edit
+			%th Delete
 
-			%tbody
-				- @cards.each do |c|
-					%tr
-						%td= c.name
-						%td not yet sure
-						%td= c.notes
-						%td= link_to 'Edit', edit_card_set_card_path(id: c.id), class: 'btn btn-success'
-						%td= link_to 'Delete',  card_set_card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+		%tbody
+			- @cards.each do |c|
+				%tr
+					%td= link_to c.name, card_path(c)
+					%td not yet sure
+					%td= c.notes
+					%td= link_to 'Edit', edit_card_set_card_path(id: c.id), class: 'btn btn-success'
+					%td= link_to 'Delete',  card_set_card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+- elsif @machine
+	%h1= Category.find(@machine.category).try(:title) + " " + @machine.number.to_s
+	%p cards
+-else
+	%h1 All Cards
+	%p= link_to 'Add New Card to A Set', new_card_path, class: 'btn btn-primary'
+	%table.table.table-bordered.table-hover
+		%thead
+			%th Card Set (click to view all cards in set)
+			%th Card Name (click to view machines that have this card)
+			%th Total Count
+			%th Notes
+			%th Edit
+			%th Delete
+
+		%tbody
+			- @cards.each do |c|
+				%tr
+					%td= link_to c.card_set.name, card_set_cards_path(c.card_set)
+					%td= link_to c.name, card_path(c)
+					%td QTY
+					%td= c.notes
+					%td= link_to 'Edit', edit_card_path(id: c.id), class: 'btn btn-success'
+					%td= link_to 'Delete',  cards_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

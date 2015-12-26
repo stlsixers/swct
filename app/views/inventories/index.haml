@@ -1,0 +1,20 @@
+%h1 Inventory
+.nav.nav-pills
+	= link_to 'List New Pull', new_inventory_path, class: 'btn btn-primary'
+%br/
+%table.table.table-bordered.table-hover
+	%thead
+		%th Card Name (click to view machines that have this card)
+		%th Machine Category and Number (click to view all cards in machine)
+		%th Quantity
+		%th Edit
+		%th Delete
+
+	%tbody
+		- @inventories.each do |i|
+			%tr
+				%td= i.card.name
+				%td= Category.find(i.machine.category).try(:title) + " " + i.machine.number
+				%td= i.quantity
+				%td= link_to 'Edit', edit_inventory_path(i), class: 'btn btn-success'
+				%td= link_to 'Delete',  inventory_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
