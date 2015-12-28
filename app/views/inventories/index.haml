@@ -13,8 +13,8 @@
 	%tbody
 		- @inventories.each do |i|
 			%tr
-				%td= i.card.name
-				%td= Category.find(i.machine.category).try(:title) + " " + i.machine.number
+				%td= i.card.card_set.name + " " + i.card.name
+				%td= Category.find(i.machine.category).try(:title) + " " + i.machine.number.to_s
 				%td= i.quantity
 				%td= link_to 'Edit', edit_inventory_path(i), class: 'btn btn-success'
-				%td= link_to 'Delete',  inventory_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+				%td= link_to 'Delete',  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

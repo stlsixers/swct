@@ -8,7 +8,12 @@ Rails.application.routes.draw do
     resources :cards
   end
   resources :cards
+
+  get 'inventories/update_cards', as: 'update_cards'
+  get 'inventories/update_machines', as: 'update_machines'
+
   resources :inventories
+    
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
