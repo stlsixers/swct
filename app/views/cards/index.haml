@@ -13,13 +13,28 @@
 			- @cards.each do |c|
 				%tr
 					%td= link_to c.name, card_path(c)
-					%td not yet sure
+					%td= Inventory.where(:card_id => c.id).present? ? Inventory.where(:card_id => c.id).sum(:quantity) : "none reported"
 					%td= c.notes
 					%td= link_to 'Edit', edit_card_set_card_path(id: c.id), class: 'btn btn-success'
 					%td= link_to 'Delete',  card_set_card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 - elsif @machine
 	%h1= Category.find(@machine.category).try(:title) + " " + @machine.number.to_s
-	%p cards
+	%table.table.table-bordered.table-hover
+		%thead
+			%th Card Name
+			%th Quantity
+			%th Card Notes
+			%th Edit
+			%th Delete
+
+		%tbody
+			- @inventories.each do |i|
+				%tr
+					%td= link_to CardSet.find(Card.find(i.card_id).card_set_id).name + " " + Card.find(i.card_id).name, card_path(i.card_id)
+					%td= i.quantity
+					%td= Card.find(i.card_id).notes
+					%td= link_to 'Edit', edit_inventory_path(i), class: 'btn btn-success'
+					%td= link_to 'Delete',  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 -else
 	%h1 All Cards
 	%p= link_to 'Add New Card to A Set', new_card_path, class: 'btn btn-primary'
@@ -37,7 +52,7 @@
 				%tr
 					%td= link_to c.card_set.name, card_set_cards_path(c.card_set)
 					%td= link_to c.name, card_path(c)
-					%td QTY
+					%td= Inventory.find_by_card_id(c.id).present? ? Inventory.where(:card_id => c.id).sum(:quantity) : "none reported"
 					%td= c.notes
 					%td= link_to 'Edit', edit_card_path(id: c.id), class: 'btn btn-success'
-					%td= link_to 'Delete',  cards_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+					%td= link_to 'Delete',  card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

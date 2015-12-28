@@ -7,14 +7,16 @@
 		%th Card Name (click to view machines that have this card)
 		%th Machine Category and Number (click to view all cards in machine)
 		%th Quantity
+		%th Card Notes
 		%th Edit
 		%th Delete
 
 	%tbody
 		- @inventories.each do |i|
 			%tr
-				%td= i.card.card_set.name + " " + i.card.name
-				%td= Category.find(i.machine.category).try(:title) + " " + i.machine.number.to_s
+				%td= link_to i.card.card_set.name + " " + i.card.name, card_path(i.card)
+				%td= link_to Category.find(i.machine.category).try(:title) + " " + i.machine.number.to_s, machine_cards_path(i.machine)
 				%td= i.quantity
+				%td= i.card.notes
 				%td= link_to 'Edit', edit_inventory_path(i), class: 'btn btn-success'
 				%td= link_to 'Delete',  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

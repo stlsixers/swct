@@ -1,4 +1,4 @@
 class Trade < ActiveRecord::Base
-	belongs_to :card
+	has_many :cards
 	belongs_to :order
 end

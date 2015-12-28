@@ -7,6 +7,7 @@ class CardsController < ApplicationController
 		elsif (params[:machine_id])
 			@machine = Machine.find(params[:machine_id])
 			@cards = @machine.cards
+			@inventories = Inventory.where(:machine_id => @machine.id)
 		else
 			@cards = Card.all
 		end
@@ -14,40 +15,44 @@ class CardsController < ApplicationController
 
 	def show
 		@card = Card.find(params[:id])
+		@inventories = Inventory.where(:card_id => @card.id)
 	end
 
 	def new
-		@card_set = CardSet.find(params[:card_set_id])
 		@card = Card.new
+		session[:return_to] ||= request.referer
+		if (params[:card_set_id])
+			@card_set = CardSet.find(params[:card_set_id])
+		else
+			@card_sets = CardSet.all
+		end
 	end
 
 	def create
 		@card = Card.new(card_params)
 		@card.save
 		flash[:notice] = "Card successfully created"
-		@card_set = CardSet.find(params[:card_set_id])
-		redirect_to card_set_cards_path(@card_set)
+		redirect_to session.delete(:return_to)
 	end
 
 	def edit
-		@card_set = CardSet.find(params[:card_set_id])
 		@card = Card.find(params[:id])
+		session[:return_to] ||= request.referer
 	end
 
 	def update
 		@card = Card.find(params[:id])
 		@card.update_attributes(card_params)
 		flash[:notice] = "Card successfully updated"
-		@card_set = CardSet.find(params[:card_set_id])
-		redirect_to card_set_cards_path(@card_set)
+		redirect_to session.delete(:return_to)
 	end
 
 	def destroy
-		@card_set = CardSet.find(params[:card_set_id])
+		session[:return_to] ||= request.referer
 		@card = Card.find(params[:id])
 		@card.destroy
 		flash[:notice] = "Card successfully deleted"
-		redirect_to card_set_cards_path(@card_set)
+		redirect_to session.delete(:return_to)
 	end
 
 	private

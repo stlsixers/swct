@@ -1,2 +1,3 @@
 %h1 Create New Card
+%p= "Set: #{@card_set.name}" if @card_set
 = render 'form'
