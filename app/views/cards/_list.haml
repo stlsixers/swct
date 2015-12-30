@@ -23,7 +23,7 @@
 	- unless smart_listing.empty?
 		%table.table.table-bordered.table-hover
 			%thead
-				%th Card Set
+				%th= smart_listing.sortable "Card Set (click to view all cards in set)", :card_set_id
 				%th= smart_listing.sortable "Card Name (click to view machines that have this card)", :name
 				%th Quantity
 				%th Card Notes
@@ -35,7 +35,7 @@
 					- @inventories.each do |i|
 						- if c.id == i.card_id
 							%tr
-								%td= CardSet.find(c.card_set_id).name
+								%td= link_to c.card_set.name + " (ID #" + c.card_set_id.to_s + ")", card_set_cards_path(c.card_set)
 								%td= link_to c.name, card_path(c)
 								%td= i.quantity
 								%td= c.notes
@@ -47,7 +47,7 @@
 	- unless smart_listing.empty?
 		%table.table.table-bordered.table-hover
 			%thead
-				%th Card Set (click to view all cards in set)
+				%th= smart_listing.sortable "Card Set (click to view all cards in set)", :card_set_id
 				%th= smart_listing.sortable "Card Name (click to view machines that have this card)", :name
 				%th Total Count
 				%th Notes
@@ -57,7 +57,7 @@
 			%tbody
 				- smart_listing.collection.each do |c|
 					%tr
-						%td= link_to c.card_set.name, card_set_cards_path(c.card_set)
+						%td= link_to c.card_set.name + " (ID #" + c.card_set_id.to_s + ")", card_set_cards_path(c.card_set)
 						%td= link_to c.name, card_path(c)
 						%td= Inventory.find_by_card_id(c.id).present? ? Inventory.where(:card_id => c.id).sum(:quantity) : "none reported"
 						%td= c.notes

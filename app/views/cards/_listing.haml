@@ -1,0 +1,22 @@
+- unless smart_listing.empty?
+	- Category.all.each do |c|
+		%h4= c.title
+		%table.table.table-bordered.table-hover
+			%thead
+				%th Machine/Device #
+				%th Quantity
+				%th Edit
+				%th Delete
+
+			%tbody
+				- smart_listing.collection.each do |i|
+					- if c.id == Machine.find(i.machine_id).category
+						%tr
+							%td= link_to " #" + Machine.find(i.machine_id).number.to_s, machine_cards_path(i.machine_id)
+							%td= i.quantity
+							%td= link_to 'Edit', edit_inventory_path(i), class: 'btn btn-success'
+							%td= link_to 'Delete',  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+- else
+	%p
+		%i.fa.fa-exclamation-triangle
+		%strong No Inventory Listed for this Card!

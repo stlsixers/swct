@@ -1,7 +1,11 @@
 class InventoriesController < ApplicationController
 
+	include SmartListing::Helper::ControllerExtensions
+	helper  SmartListing::Helper
+
 	def index
-		@inventories = Inventory.all
+		inventories_scope = Inventory.all
+		@inventories = smart_listing_create(:inventories, inventories_scope, partial: "inventories/list", default_sort: {updated_at: "desc"})
 	end
 
 	def new

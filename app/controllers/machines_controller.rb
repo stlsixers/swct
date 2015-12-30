@@ -1,7 +1,12 @@
 class MachinesController < ApplicationController
 
+	include SmartListing::Helper::ControllerExtensions
+	helper  SmartListing::Helper
+
 	def index
-		@machines = Machine.all
+		machines_scope = Machine.all
+		machines_scope = machines_scope.where("number LIKE '%#{params[:filter]}%'") if params[:filter]
+		@machines = smart_listing_create(:machines, machines_scope, partial: "machines/list", default_sort: {number: "asc"})
 	end
 
 	def new

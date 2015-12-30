@@ -13,7 +13,7 @@
 	%h1= Category.find(@machine.category).try(:title) + " #" + @machine.number.to_s
 	= smart_listing_controls_for(:cards, {class: "form-inline text-right"}) do
 		.form-group.filter.input-append
-			= text_field_tag :filter, '', class: "search form-control", placeholder: "Search cards...", autocomplete: "off"
+			= text_field_tag :filter, '', class: "search form-control", placeholder: "Search cards or set ID...", autocomplete: "off"
 			%button.btn-primary.disabled{type: "submit"}
 				%span.glyphicon.glyphicon-search
 	%p
@@ -24,7 +24,7 @@
 	%p= link_to 'Add New Card to A Set', new_card_path, class: 'btn btn-primary'
 	= smart_listing_controls_for(:cards, {class: "form-inline text-right"}) do
 		.form-group.filter.input-append
-			= text_field_tag :filter, '', class: "search form-control", placeholder: "Search cards...", autocomplete: "off"
+			= text_field_tag :filter, '', class: "search form-control", placeholder: "Search cards or set ID...", autocomplete: "off"
 			%button.btn-primary.disabled{type: "submit"}
 				%span.glyphicon.glyphicon-search
 	%p

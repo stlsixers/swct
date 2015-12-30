@@ -1,18 +1,6 @@
-%h2= @card.name
-%h3= link_to @card.card_set.name, card_set_cards_path(@card.card_set)
-%h4= "Total Card Count: #{Inventory.where(:card_id => @card.id).present? ? Inventory.where(:card_id => @card.id).sum(:quantity) : "none reported"}"
-%h4= "Card Notes: #{@card.notes}"
-%table.table.table-bordered.table-hover
-	%thead
-		%th Machine Category and Name
-		%th Quantity
-		%th Edit
-		%th Delete
+%h3=raw "Card Name: #{@card.name}"
+%p=raw "<strong>Set:</strong> #{link_to @card.card_set.name, card_set_cards_path(@card.card_set)}".html_safe
+%p= "<strong>Total Card Count:</strong> #{Inventory.where(:card_id => @card.id).present? ? Inventory.where(:card_id => @card.id).sum(:quantity) : "none reported"}".html_safe
+%p= "<strong>Card Notes:</strong> #{@card.notes}".html_safe
 
-	%tbody
-		- @inventories.each do |i|
-			%tr
-				%td= link_to Category.find(Machine.find(i.machine_id).category).try(:title) + " #" + Machine.find(i.machine_id).number.to_s, machine_cards_path(i.machine_id)
-				%td= i.quantity
-				%td= link_to 'Edit', edit_inventory_path(i), class: 'btn btn-success'
-				%td= link_to 'Delete',  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+= smart_listing_render(:machines)

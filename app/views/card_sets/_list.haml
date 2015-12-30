@@ -13,6 +13,5 @@
           %td= link_to 'Add New Card', new_card_set_card_path(c), class: 'btn btn-primary'
           %td= link_to 'Edit', edit_card_set_path(c), class: 'btn btn-success'
           %td= link_to 'Delete',  card_set_path(c),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
-
 - else
   %p.warning No records!

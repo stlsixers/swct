@@ -15,18 +15,19 @@ class CardsController < ApplicationController
 			@inventories = @machine.inventories
 			cards_scope = @cards
 			cards_scope = cards_scope.where("name LIKE '%#{params[:filter]}%'") if params[:filter]
-			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", default_sort: {name: "asc"})
+			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", default_sort: {card_set_id: "asc"})
 		else
 			@cards = Card.all
 			cards_scope = @cards
-			cards_scope = cards_scope.where("name LIKE '%#{params[:filter]}%'") if params[:filter]
-			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", default_sort: {name: "asc"})
+			cards_scope = cards_scope.where("name || card_set_id LIKE '%#{params[:filter]}%'") if params[:filter]
+			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", default_sort: {card_set_id: "asc"})
 		end
 	end
 
 	def show
 		@card = Card.find(params[:id])
-		@inventories = Inventory.where(:card_id => @card.id)
+		@inventories = @card.inventories
+		@machines = smart_listing_create(:machines, @inventories, partial: "cards/listing", default_sort: {machine_id: "asc"})
 	end
 
 	def new
