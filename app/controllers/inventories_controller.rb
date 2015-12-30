@@ -11,8 +11,8 @@ class InventoriesController < ApplicationController
 	def new
 		@inventory = Inventory.new
 		@card_sets = CardSet.all
-		@cards = Card.where("card_set_id = ?", CardSet.first.id)
-		@machines = Machine.where("category = ?", Category.first.id)
+		@cards = Card.where("card_set_id = ?", CardSet.first.id).order(:name)
+		@machines = Machine.where("category = ?", Category.first.id).order(:number)
 	end
 
 	def create
