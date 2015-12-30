@@ -1,0 +1,67 @@
+- if @card_set
+	- unless smart_listing.empty?
+		%table.table.table-bordered.table-hover
+			%thead
+				%tr 
+					%th= smart_listing.sortable "Card Name (click to view machines that have this card)", :name
+					%th Total Count
+					%th Notes
+					%th Edit
+					%th Delete
+			%tbody
+				- smart_listing.collection.each do |c|
+					%tr
+						%td= link_to c.name, card_path(c)
+						%td= Inventory.where(:card_id => c.id).present? ? Inventory.where(:card_id => c.id).sum(:quantity) : "none reported"
+						%td= c.notes
+						%td= link_to 'Edit', edit_card_set_card_path(id: c.id), class: 'btn btn-success'
+						%td= link_to 'Delete',  card_set_card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+
+	- else
+		%p.warning No records!
+- elsif @machine
+	- unless smart_listing.empty?
+		%table.table.table-bordered.table-hover
+			%thead
+				%th= smart_listing.sortable "Card Set (click to view all cards in set)", :card_set_id
+				%th= smart_listing.sortable "Card Name (click to view machines that have this card)", :name
+				%th Quantity
+				%th Card Notes
+				%th Edit
+				%th Delete
+
+			%tbody
+				- smart_listing.collection.each do |c|
+					- @inventories.each do |i|
+						- if c.id == i.card_id
+							%tr
+								%td= link_to c.card_set.name + " (ID #" + c.card_set_id.to_s + ")", card_set_cards_path(c.card_set)
+								%td= link_to c.name, card_path(c)
+								%td= i.quantity
+								%td= c.notes
+								%td= link_to 'Edit', edit_inventory_path(i), class: 'btn btn-success'
+								%td= link_to 'Delete',  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+	- else
+		%p.warning No records!
+-else
+	- unless smart_listing.empty?
+		%table.table.table-bordered.table-hover
+			%thead
+				%th= smart_listing.sortable "Card Set (click to view all cards in set)", :card_set_id
+				%th= smart_listing.sortable "Card Name (click to view machines that have this card)", :name
+				%th Total Count
+				%th Notes
+				%th Edit
+				%th Delete
+
+			%tbody
+				- smart_listing.collection.each do |c|
+					%tr
+						%td= link_to c.card_set.name + " (ID #" + c.card_set_id.to_s + ")", card_set_cards_path(c.card_set)
+						%td= link_to c.name, card_path(c)
+						%td= Inventory.find_by_card_id(c.id).present? ? Inventory.where(:card_id => c.id).sum(:quantity) : "none reported"
+						%td= c.notes
+						%td= link_to 'Edit', edit_card_path(id: c.id), class: 'btn btn-success'
+						%td= link_to 'Delete',  card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+	- else
+		%p.warning No records!

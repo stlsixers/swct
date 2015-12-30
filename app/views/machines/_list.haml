@@ -1,0 +1,18 @@
+- unless smart_listing.empty?
+	- Category.all.each do |c|
+		%h4= c.title
+		%table.table.table-bordered.table-hover
+			%thead
+				%th Machine Number (click to view all cards in machine)
+				%th Edit
+				%th Delete
+
+			%tbody
+				- smart_listing.collection.each do |m|
+					- if c.id == Machine.find(m).category
+						%tr
+							%td= link_to "##{m.number}", machine_cards_path(m)
+							%td= link_to 'Edit', edit_machine_path(m), class: 'btn btn-success'
+							%td= link_to 'Delete',  machine_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+- else
+	%p.warning No records!

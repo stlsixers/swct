@@ -4,17 +4,10 @@
 	= link_to 'Create New Set', new_card_set_path, class: 'btn btn-primary'
 %br/
 
-%table.table.table-bordered.table-hover
-	%thead
-		%th Set Name (click to view all cards in set)
-		%th Add Card to Set
-		%th Edit
-		%th Delete
-
-	%tbody
-		- @card_sets.each do |c|
-			%tr
-				%td= link_to c.name, card_set_cards_path(c)
-				%td= link_to 'Add New Card', new_card_set_card_path(c), class: 'btn btn-primary'
-				%td= link_to 'Edit', edit_card_set_path(c), class: 'btn btn-success'
-				%td= link_to 'Delete',  card_set_path(c),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+= smart_listing_controls_for(:card_sets, {class: "form-inline text-right"}) do
+	.form-group.filter.input-append
+		= text_field_tag :filter, '', class: "search form-control", placeholder: "Search card set...", autocomplete: "off"
+		%button.btn-primary.disabled{type: "submit"}
+			%span.glyphicon.glyphicon-search
+%p
+= smart_listing_render(:card_sets)

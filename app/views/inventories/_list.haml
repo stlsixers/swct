@@ -1,0 +1,23 @@
+- unless smart_listing.empty?
+	%table.table.table-bordered.table-hover
+		%thead
+			%th Created
+			%th Updated
+			%th Card Name
+			%th Machine Category and Number
+			%th Quantity
+			%th Edit
+			%th Delete
+
+		%tbody
+			- smart_listing.collection.each do |i|
+				%tr
+					%td= i.created_at.localtime.strftime("%a,%m/%d/%y,%H:%M")
+					%td= i.updated_at.localtime.strftime("%a,%m/%d/%y,%H:%M")
+					%td= link_to i.card.card_set.name + " - " + i.card.name, card_path(i.card)
+					%td= link_to Category.find(i.machine.category).try(:title) + " #" + i.machine.number.to_s, machine_cards_path(i.machine)
+					%td= i.quantity
+					%td= link_to 'Edit', edit_inventory_path(i), class: 'btn btn-success'
+					%td= link_to 'Delete',  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+- else
+	%p.warning No records!
