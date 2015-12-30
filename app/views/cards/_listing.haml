@@ -10,12 +10,13 @@
 
 			%tbody
 				- smart_listing.collection.each do |i|
-					- if c.id == Machine.find(i.machine_id).category
+					- if c.id == i.category
 						%tr
-							%td= link_to " #" + Machine.find(i.machine_id).number.to_s, machine_cards_path(i.machine_id)
-							%td= i.quantity
-							%td= link_to 'Edit', edit_inventory_path(i), class: 'btn btn-success'
-							%td= link_to 'Delete',  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+							- @query = Inventory.where(:machine_id => i.id).where(:card_id => @card.id).take
+							%td= link_to " #" + i.number.to_s, machine_cards_path(i)
+							%td= @query.quantity
+							%td= link_to 'Edit', edit_inventory_path(@query), class: 'btn btn-success'
+							%td= link_to 'Delete',  inventory_path(@query),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 - else
 	%p
 		%i.fa.fa-exclamation-triangle
