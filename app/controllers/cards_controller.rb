@@ -1,5 +1,7 @@
 class CardsController < ApplicationController
 
+	before_action :authenticate_user!
+
 	include SmartListing::Helper::ControllerExtensions
 	helper  SmartListing::Helper
 

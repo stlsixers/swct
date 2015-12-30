@@ -1,4 +1,5 @@
 class MachinesController < ApplicationController
+	before_action :authenticate_user!
 
 	include SmartListing::Helper::ControllerExtensions
 	helper  SmartListing::Helper
