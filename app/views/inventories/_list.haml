@@ -19,5 +19,6 @@
 					%td= i.quantity
 					%td= link_to 'Edit', edit_inventory_path(i), class: 'btn btn-success'
 					%td= link_to 'Delete',  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+	= smart_listing.paginate
 - else
 	%p.warning No records!
