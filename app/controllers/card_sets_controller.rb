@@ -1,7 +1,12 @@
 class CardSetsController < ApplicationController
 
+	include SmartListing::Helper::ControllerExtensions
+	helper  SmartListing::Helper
+
 	def index
-		@card_sets = CardSet.all
+		card_sets_scope = CardSet.all
+		card_sets_scope = card_sets_scope.where("name LIKE '%#{params[:filter]}%'") if params[:filter]
+		@card_sets = smart_listing_create(:card_sets, card_sets_scope, partial: "card_sets/list", default_sort: {name: "asc"})
 	end
 
 	def new

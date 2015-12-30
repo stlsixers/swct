@@ -1,15 +1,26 @@
 class CardsController < ApplicationController
 
+	include SmartListing::Helper::ControllerExtensions
+	helper  SmartListing::Helper
+
 	def index
 		if (params[:card_set_id])
 			@card_set = CardSet.find(params[:card_set_id])
-			@cards = @card_set.cards
+			cards_scope = @card_set.cards
+			cards_scope = cards_scope.where("name LIKE '%#{params[:filter]}%'") if params[:filter]
+			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", default_sort: {name: "asc"})
 		elsif (params[:machine_id])
 			@machine = Machine.find(params[:machine_id])
 			@cards = @machine.cards
-			@inventories = Inventory.where(:machine_id => @machine.id)
+			@inventories = @machine.inventories
+			cards_scope = @cards
+			cards_scope = cards_scope.where("name LIKE '%#{params[:filter]}%'") if params[:filter]
+			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", default_sort: {name: "asc"})
 		else
 			@cards = Card.all
+			cards_scope = @cards
+			cards_scope = cards_scope.where("name LIKE '%#{params[:filter]}%'") if params[:filter]
+			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", default_sort: {name: "asc"})
 		end
 	end
 

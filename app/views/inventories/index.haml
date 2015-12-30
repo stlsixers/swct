@@ -15,7 +15,7 @@
 		- @inventories.each do |i|
 			%tr
 				%td= link_to i.card.card_set.name + " " + i.card.name, card_path(i.card)
-				%td= link_to Category.find(i.machine.category).try(:title) + " " + i.machine.number.to_s, machine_cards_path(i.machine)
+				%td= link_to Category.find(i.machine.category).try(:title) + " #" + i.machine.number.to_s, machine_cards_path(i.machine)
 				%td= i.quantity
 				%td= i.card.notes
 				%td= link_to 'Edit', edit_inventory_path(i), class: 'btn btn-success'
