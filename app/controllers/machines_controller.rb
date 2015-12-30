@@ -5,7 +5,7 @@ class MachinesController < ApplicationController
 
 	def index
 		machines_scope = Machine.all
-		machines_scope = machines_scope.where("number LIKE '%#{params[:filter].to_i}%'") if params[:filter]
+		machines_scope = machines_scope.find("number = ? ", "#{params[:filter]}") if params[:filter]
 		@machines = smart_listing_create(:machines, machines_scope, partial: "machines/list", default_sort: {number: "asc"})
 	end
 
