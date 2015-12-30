@@ -26,8 +26,8 @@ class CardsController < ApplicationController
 
 	def show
 		@card = Card.find(params[:id])
-		@inventories = @card.inventories
-		@machines = smart_listing_create(:machines, @inventories, partial: "cards/listing", default_sort: {machine_id: "asc"})
+		@inventories = @card.machines
+		@machines = smart_listing_create(:machines, @inventories, partial: "cards/listing", default_sort: {number: "asc"})
 	end
 
 	def new
