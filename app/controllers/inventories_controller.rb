@@ -43,14 +43,14 @@ class InventoriesController < ApplicationController
 	end
 
 	def update_cards
-    @cards = Card.where("card_set_id = ?", params[:card_set_id])
+    @cards = Card.where("card_set_id = ?", params[:card_set_id]).order(:name)
     respond_to do |format|
       format.js
     end
   end
 
   def update_machines
-    @machines = Machine.where("category = ?", params[:category_id])
+    @machines = Machine.where("category = ?", params[:category_id]).order(:number)
     respond_to do |format|
       format.js
     end
