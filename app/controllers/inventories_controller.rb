@@ -20,10 +20,15 @@ class InventoriesController < ApplicationController
 	end
 
 	def create
-		@inventory = Inventory.create(inventory_params)
-		@inventory.save
-		flash[:notice] = "Pull successfully listed"
-		redirect_to inventories_path
+		if Inventory.find_by_card_id_and_machine_id(params[:card_id], params[:machine_id]).nil?
+			@inventory = Inventory.create(inventory_params)
+			@inventory.save
+			flash[:notice] = "Pull successfully listed"
+			redirect_to inventories_path
+		else
+			flash[:error] = "Inventory for that card in the device already exists. Please edit the device count"
+			redirect_to inventories_path
+		end
 	end
 
 	def edit

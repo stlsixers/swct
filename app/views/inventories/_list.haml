@@ -6,7 +6,6 @@
 			%th Last Action
 			%th Card Name
 			%th Machine Category and Number
-			%th Quantity
 			%th Edit
 			%th Delete
 
@@ -19,7 +18,6 @@
 					%td= i.event
 					%td= link_to i.item.card.card_set.name + " - " + i.item.card.name, card_path(i.item.card)
 					%td= link_to Category.find(i.item.machine.category).try(:title) + " #" + i.item.machine.number.to_s, machine_cards_path(i.item.machine)
-					%td= i.item.quantity
 					%td= link_to 'Edit', edit_inventory_path(i.item), class: 'btn btn-success'
 					%td= link_to 'Delete',  inventory_path(i.item),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 	= smart_listing.paginate
