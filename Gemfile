@@ -26,6 +26,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 gem 'font-awesome-rails'
 gem 'smart_listing'
+gem 'paper_trail', '~> 4.0.0'
 
 #Use postgresql as the database for production
 group :production do

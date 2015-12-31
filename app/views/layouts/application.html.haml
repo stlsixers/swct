@@ -12,10 +12,12 @@
 				= link_to 'Card Management', card_sets_path, class: 'btn btn-default navbar-btn'
 				= link_to 'Machine/Device Management', machines_path, class: 'btn btn-default navbar-btn'
 				= link_to 'Inventory Management', inventories_path, class: 'btn btn-default navbar-btn'
-				- if user_signed_in?
-					= link_to 'Sign Out', destroy_user_session_path, :method => :delete, class: 'btn btn-warning navbar-btn pull-right'
-				- else
-					= link_to 'Sign In', new_user_session_path, class: 'btn btn-success navbar-btn pull-right'
+				.pull-right
+					- if user_signed_in?
+						= link_to 'Edit Account',edit_user_registration_path(current_user), class: 'btn btn-success navbar-btn'
+						= link_to 'Sign Out', destroy_user_session_path, :method => :delete, class: 'btn btn-warning navbar-btn'
+					- else
+						= link_to 'Sign In', new_user_session_path, class: 'btn btn-success navbar-btn'
 		.row
 			.col-md-10.col-md-offset-1
 				.container

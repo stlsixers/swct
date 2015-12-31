@@ -6,8 +6,10 @@ class InventoriesController < ApplicationController
 	helper  SmartListing::Helper
 
 	def index
-		inventories_scope = Inventory.all.limit(30)
-		@inventories = smart_listing_create(:inventories, inventories_scope, partial: "inventories/list", default_sort: {updated_at: "desc"})
+		inventories_scope = PaperTrail::Version.where('whodunnit IS NOT ?', nil).order(:created_at => :desc).limit(50).includes(:item)
+		@inventories = smart_listing_create(:inventories, inventories_scope, partial: "inventories/list", default_sort: {created_at: "desc"})
+		user_ids = inventories_scope.collect(&:whodunnit).reject(&:blank?).map(&:to_i).uniq 
+		@version_users = User.where(:id => user_ids)
 	end
 
 	def new
@@ -36,11 +38,10 @@ class InventoriesController < ApplicationController
 			@inventory.quantity -= params[:quantity].to_i
 			@inventory.update_attribute('quantity', @inventory.quantity)
 
-			@swap_inventory = Inventory.where(:card_id => params[:card_id], :machine_id => params[:swap_machine_id])
-			if @swap_inventory.empty?
+			@swap_inventory = Inventory.find_by_card_id_and_machine_id(params[:card_id], params[:swap_machine_id])
+			if @swap_inventory.nil?
 				Inventory.create(:card_id => params[:card_id], :machine_id => params[:swap_machine_id], :quantity => params[:quantity])
 			else
-				@swap_inventory = @swap_inventory.first
 				@swap_inventory.quantity += params[:quantity].to_i
 				@swap_inventory.update_attribute('quantity', @swap_inventory.quantity)	
 			end
@@ -70,32 +71,6 @@ class InventoriesController < ApplicationController
 		@machine = Machine.find(params[:machine_id])
 		@inventory = Inventory.find(params[:id])
 		@machines = Machine.all.order(:category).order(:number)
-		# @inventories = Inventory.select("card_id").distinct
-		# @card_sets = CardSet.all
-		# @cards = Card.all.distinct.order(:name)
-		# @machines = Machine.where("category = ?", Category.first.id).order(:number)
-		# @machines = Machine.all.order(:number)
-		#Inventory.select("machine_id").where(:card_id => c.id).distinct
-		# @cards2 = Card.where("card_set_id = ?", CardSet.first.id).order(:name)
-		# @machines2 = Machine.where("category = ?", Category.first.id).order(:number)
-
-		# @inventoried = []
-		# @inventories.each do |i|
-		# 	@cards.each do |c|
-		# 		if i.card_id == c.id
-		# 			@card_set = CardSet.find(c.card_set_id)
-		# 			@card_name = "#{@card_set.name} - #{c.name}"
-		# 			@inventoried.push([@card_name,c.id])
-		# 		end
-		# 	end
-		# end
-		# @inventoried = @inventoried.sort_by{ |x,y| x }
-
-		# @in_machine = []
-		# @machines.each do |m|
-		# 	@machine_name = "#{Category.find(m.category).try(:title)} #{m.number}"
-		# 	@in_machine.push([@machine_name, m.id])
-		# end
 	end
 
 	def update_cards
