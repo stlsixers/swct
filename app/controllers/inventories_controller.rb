@@ -22,12 +22,11 @@ class InventoriesController < ApplicationController
 	def create
 		if Inventory.find_by_card_id_and_machine_id(params[:card_id], params[:machine_id]).nil?
 			@inventory = Inventory.create(inventory_params)
-			if @inventory.errors.messages
-				flash[:error] = "Please don't leave any fields blank"
+			if @inventory.save
+				flash[:notice] = "Pull successfully listed"
 				redirect_to inventories_path
 			else
-				@inventory.save
-				flash[:notice] = "Pull successfully listed"
+				flash[:error] = "Please don't leave any fields blank"
 				redirect_to inventories_path
 			end
 		else
