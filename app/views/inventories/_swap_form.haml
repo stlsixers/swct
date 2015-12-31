@@ -1,0 +1,20 @@
+= form_tag inventory_path(params[:id]), method: :put do |f|
+	.form-group
+
+		%h3=raw "Card to Swap: #{@card.name}"
+		%h3=raw "From: #{Category.find(@machine.category).try(:title)} ##{@machine.number}"
+
+		= label_tag :quantity, 'Quantity', class: 'control-label'
+		= text_field_tag :quantity, "1", class: 'form-control'
+
+		%h2 To:
+
+		= label_tag :swap_machine_id, 'Machine', class: 'control-label'
+		= select_tag :swap_machine_id, options_for_select(@machines.collect {|m| ["#{Category.find(m.category).try(:title)} ##{m.number}", m.id]}), class: 'form-control'	
+
+		= hidden_field_tag :card_id, params[:card_id]
+		= hidden_field_tag :machine_id, params[:machine_id]
+		= hidden_field_tag :id, params[:id]
+		= hidden_field_tag :swap, true
+
+	= submit_tag 'Submit', class: 'btn btn-default'

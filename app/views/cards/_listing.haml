@@ -6,6 +6,7 @@
 				%th Machine/Device #
 				%th Quantity
 				%th Edit
+				%th Swap
 				%th Delete
 
 			%tbody
@@ -16,6 +17,7 @@
 							%td= link_to " #" + i.number.to_s, machine_cards_path(i)
 							%td= @query.quantity
 							%td= link_to 'Edit', edit_inventory_path(@query), class: 'btn btn-success'
+							%td= link_to 'Swap', swap_path(:card_id => @card.id, :machine_id => i.id, :id => @query.id), class: 'btn btn-success'
 							%td= link_to 'Delete',  inventory_path(@query),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 - else
 	%p
