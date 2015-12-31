@@ -1,4 +1,4 @@
-- if @inventory.quantity?
+- if @inventory.quantity? || @inventory.quantity == nil
 	%h4= Card.find(@inventory.card_id).name + " " + Category.find(Machine.find(@inventory.machine_id).category).try(:title) + " " + Machine.find(@inventory.machine_id).number.to_s
 	= form_for @inventory do |f|
 		.form-group
