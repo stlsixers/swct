@@ -11,15 +11,15 @@
 
 		%tbody
 			- smart_listing.collection.each do |i|
-				%tr
-					- user = @version_users.select { |u| u.id == i.whodunnit.to_i }.first
-					%td= user.star_wars_name
-					%td=raw "#{time_ago_in_words(i.item.updated_at)} ago"
-					%td= i.event
-					%td= link_to i.item.card.card_set.name + " - " + i.item.card.name, card_path(i.item.card)
-					%td= link_to Category.find(i.item.machine.category).try(:title) + " #" + i.item.machine.number.to_s, machine_cards_path(i.item.machine)
-					%td= link_to 'Edit', edit_inventory_path(i.item), class: 'btn btn-success'
-					%td= link_to 'Delete',  inventory_path(i.item),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
-	= smart_listing.paginate
+				- if i.item != nil
+					%tr
+						- user = @version_users.select { |u| u.id == i.whodunnit.to_i }.first
+						%td= user.star_wars_name
+						%td=raw "#{time_ago_in_words(i.item.updated_at)} ago"
+						%td= i.event
+						%td= link_to i.item.card.card_set.name + " - " + i.item.card.name, card_path(i.item.card)
+						%td= link_to Category.find(i.item.machine.category).try(:title) + " #" + i.item.machine.number.to_s, machine_cards_path(i.item.machine)
+						%td= link_to 'Edit', edit_inventory_path(i.item), class: 'btn btn-success'
+						%td= link_to 'Delete',  inventory_path(i.item),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 - else
 	%p.warning No records!
