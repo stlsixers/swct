@@ -19,10 +19,12 @@ class CardsController < ApplicationController
 			cards_scope = cards_scope.where("lower(name) LIKE '%#{params[:filter].downcase}%'") if params[:filter]
 			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", default_sort: {card_set_id: "asc"})
 		else
-			@cards = Card.all
+			@cards = CardSet.includes(:cards).all
+			# @cards = Card.joins(:card_set)
+			# check why uniq and distinct dont make a difference
 			cards_scope = @cards
-			cards_scope = cards_scope.where("lower(name) || card_set_id LIKE '%#{params[:filter].downcase}%'") if params[:filter]
-			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", default_sort: {card_set_id: "asc"})
+			cards_scope = CardSet.joins(:cards).where("lower(card_sets.name) || lower(cards.name) LIKE '%#{params[:filter].downcase}%'").uniq if params[:filter]
+			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", default_sort: {name: "asc"})
 		end
 	end
 
@@ -38,7 +40,7 @@ class CardsController < ApplicationController
 		if (params[:card_set_id])
 			@card_set = CardSet.find(params[:card_set_id])
 		else
-			@card_sets = CardSet.all
+			@card_sets = CardSet.all.order(:name)
 		end
 	end
 

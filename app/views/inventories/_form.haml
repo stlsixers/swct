@@ -10,19 +10,23 @@
 	= form_tag inventories_path, method: :post do |f|
 		.form-group
 
-			= label_tag :card_set_id, 'Card Set', class: 'control-label'
-			= select_tag :card_set_id, options_for_select(@card_sets.collect {|c| [c.name, c.id]}), :include_blank => true, class: 'form-control', id: 'card_sets_select'
-
 			= label_tag :card_id, 'Card', class: 'control-label'
-			= select_tag :card_id, options_for_select(@cards.collect {|card| [card.name, card.id]}), :include_blank => true, class: 'form-control', id: 'cards_select'
+			= select_tag :card_id, grouped_options_for_select(@grouped_card_sets),class: 'form-control js-example-basic-single', id: 'cards_select'
 
 			= label_tag :category_id, 'Machine Category', class: 'control-label'
-			= select_tag :category_id, options_for_select(Category.all.collect {|cat| [cat.title, cat.id]}), :include_blank => true, class: 'form-control', id: 'categories_select'
+			= select_tag :category_id, options_for_select(Category.all.collect {|cat| [cat.title, cat.id]}), class: 'form-control', id: 'categories_select'
 
 			= label_tag :machine_id, 'Machine', class: 'control-label'
-			= select_tag :machine_id, options_for_select(@machines.collect {|m| [m.number, m.id]}), :include_blank => true, class: 'form-control', id: 'machines_select'
+			= select_tag :machine_id, options_for_select(@machines.collect {|m| [m.number, m.id]}), {:multiple => true, class: 'form-control js-example-basic-single', id: 'machines_select'}
 
 			= label_tag :quantity, 'Quantity', class: 'control-label'
 			= text_field_tag :quantity, "", class: 'form-control'
 			
 		= submit_tag 'Submit', class: 'btn btn-default'
+
+:javascript
+	$(document).ready(function() {
+		$(".js-example-basic-single").select2(
+
+		);
+	});

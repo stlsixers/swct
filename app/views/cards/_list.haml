@@ -56,12 +56,13 @@
 
 			%tbody
 				- smart_listing.collection.each do |c|
-					%tr
-						%td= link_to c.card_set.name + " (ID #" + c.card_set_id.to_s + ")", card_set_cards_path(c.card_set)
-						%td= link_to c.name, card_path(c)
-						%td= Inventory.find_by_card_id(c.id).present? ? Inventory.where(:card_id => c.id).sum(:quantity) : "none reported"
-						%td= c.notes
-						%td= link_to 'Edit', edit_card_path(id: c.id), class: 'btn btn-success'
-						%td= link_to 'Delete',  card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+					- c.cards.each do |card|
+						%tr
+							%td= link_to c.name, card_set_cards_path(c)
+							%td= link_to card.name, card_path(card)
+							%td= Inventory.find_by_card_id(card.id).present? ? Inventory.where(:card_id => card.id).sum(:quantity) : "none reported"
+							%td= card.notes
+							%td= link_to 'Edit', edit_card_path(id: card.id), class: 'btn btn-success'
+							%td= link_to 'Delete',  card_path(id: card.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 	- else
 		%p.warning No records!

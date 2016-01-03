@@ -11,9 +11,9 @@
 
 		%tbody
 			- smart_listing.collection.each do |i|
+				- user = @version_users.select { |u| u.id == i.whodunnit.to_i }.first
 				- if i.item != nil
 					%tr
-						- user = @version_users.select { |u| u.id == i.whodunnit.to_i }.first
 						%td= user.star_wars_name
 						%td=raw "#{time_ago_in_words(i.item.updated_at)} ago"
 						%td= i.event

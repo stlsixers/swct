@@ -14,9 +14,16 @@
 			= f.hidden_field :card_set_id, :value => @card_set.id
 		- else
 			= f.label :card_set_id, 'Card Set', class: 'control-label'
-			= f.select :card_set_id, options_for_select(@card_sets.collect {|c| [c.name, c.id]}), {}, class: 'form-control', id: 'card_sets_select'
+			= f.select :card_set_id, options_for_select(@card_sets.collect {|c| [c.name, c.id]}), {}, class: 'form-control card-set', id: 'card_sets_select'
 			= f.label :name, 'Card Name', class: 'control-label'
 			= f.text_field :name, class: 'form-control'
 			= f.label :notes, 'Notes', class: 'control-label'
 			= f.text_field :notes, class: 'form-control'
 	= f.submit 'Submit', class: 'btn btn-default'
+
+	:javascript
+	$(document).ready(function() {
+		$(".card-set").select2(
+
+		);
+	});
