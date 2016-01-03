@@ -13,11 +13,8 @@
 			= label_tag :card_id, 'Card', class: 'control-label'
 			= select_tag :card_id, grouped_options_for_select(@grouped_card_sets),class: 'form-control js-example-basic-single', id: 'cards_select'
 
-			= label_tag :category_id, 'Machine Category', class: 'control-label'
-			= select_tag :category_id, options_for_select(Category.all.collect {|cat| [cat.title, cat.id]}), class: 'form-control', id: 'categories_select'
-
 			= label_tag :machine_id, 'Machine', class: 'control-label'
-			= select_tag :machine_id, options_for_select(@machines.collect {|m| [m.number, m.id]}), {:multiple => true, class: 'form-control js-example-basic-single', id: 'machines_select'}
+			= select_tag :machine_id, grouped_options_for_select(@grouped_machines),class: 'form-control js-example-basic-single', id: 'machines_select'
 
 			= label_tag :quantity, 'Quantity', class: 'control-label'
 			= text_field_tag :quantity, "", class: 'form-control'

@@ -16,14 +16,15 @@ class CardsController < ApplicationController
 			@cards = @machine.cards
 			@inventories = @machine.inventories
 			cards_scope = @cards
-			cards_scope = cards_scope.where("lower(name) LIKE '%#{params[:filter].downcase}%'") if params[:filter]
-			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", default_sort: {card_set_id: "asc"})
+			cards_scope = cards_scope.joins(:card_set).where('lower(card_sets.name) LIKE ? OR lower(cards.name) LIKE ?', "%#{params[:filter].downcase}%", "%#{params[:filter].downcase}%").uniq.order('card_sets.name') if params[:filter]
+			# cards_scope = cards_scope.where("lower(name) LIKE '%#{params[:filter].downcase}%'") if params[:filter]
+			@cards = smart_listing_create(:cards, cards_scope.joins(:card_set), partial: "cards/list", sort_attributes: [[:set_name, "card_sets.name"]], default_sort: {set_name: "asc"})
 		else
 			@cards = CardSet.includes(:cards).all
 			# @cards = Card.joins(:card_set)
 			# check why uniq and distinct dont make a difference
 			cards_scope = @cards
-			cards_scope = CardSet.joins(:cards).where("lower(card_sets.name) || lower(cards.name) LIKE '%#{params[:filter].downcase}%'").uniq if params[:filter]
+			cards_scope = CardSet.joins(:cards).where('lower(card_sets.name) LIKE ? OR lower(cards.name) LIKE ?', "%#{params[:filter].downcase}%", "%#{params[:filter].downcase}%").uniq if params[:filter]
 			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", default_sort: {name: "asc"})
 		end
 	end

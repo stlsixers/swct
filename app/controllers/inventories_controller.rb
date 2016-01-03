@@ -16,7 +16,8 @@ class InventoriesController < ApplicationController
 		@inventory = Inventory.new
 		@card_sets = CardSet.all.order(:name)
 		@cards = Card.all.order(:name)
-		@machines = Machine.where("category = ?", Category.first.id).order(:number)
+		@machines = Machine.all.order(:number)
+
 		@grouped_card_sets = []
 		@card_sets.each do |c|
 			@parts = []
@@ -27,6 +28,19 @@ class InventoriesController < ApplicationController
 			end
 			@grouped_card_sets.push([c.name, @parts])
 		end
+
+		@categories = Category.all
+		@grouped_machines = []
+		@categories.each do |c|
+			@parts = []
+			@machines.each do |m|
+				if m.category == c.id
+					@parts.push([c.title + " - " + m.number.to_s, m.id])
+				end
+			end
+			@grouped_machines.push([c.title, @parts])
+		end
+		
 	end
 
 	def create

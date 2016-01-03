@@ -3,7 +3,7 @@
 		%table.table.table-bordered.table-hover
 			%thead
 				%tr 
-					%th= smart_listing.sortable "Card Name (click to view machines that have this card)", :name
+					%th Card Name (click to view machines that have this card)
 					%th Total Count
 					%th Notes
 					%th Edit
@@ -23,8 +23,8 @@
 	- unless smart_listing.empty?
 		%table.table.table-bordered.table-hover
 			%thead
-				%th= smart_listing.sortable "Card Set (click to view all cards in set)", :card_set_id
-				%th= smart_listing.sortable "Card Name (click to view machines that have this card)", :name
+				%th Card Set (click to view all cards in set)
+				%th Card Name (click to view machines that have this card)
 				%th Quantity
 				%th Card Notes
 				%th Edit
@@ -35,7 +35,7 @@
 					- @inventories.each do |i|
 						- if c.id == i.card_id
 							%tr
-								%td= link_to c.card_set.name + " (ID #" + c.card_set_id.to_s + ")", card_set_cards_path(c.card_set)
+								%td= link_to c.card_set.name, card_set_cards_path(c.card_set)
 								%td= link_to c.name, card_path(c)
 								%td= i.quantity
 								%td= c.notes
@@ -47,8 +47,8 @@
 	- unless smart_listing.empty?
 		%table.table.table-bordered.table-hover
 			%thead
-				%th= smart_listing.sortable "Card Set (click to view all cards in set)", :card_set_id
-				%th= smart_listing.sortable "Card Name (click to view machines that have this card)", :name
+				%th Card Set (click to view all cards in set)
+				%th Card Name (click to view machines that have this card)
 				%th Total Count
 				%th Notes
 				%th Edit
