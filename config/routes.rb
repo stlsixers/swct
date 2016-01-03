@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'inventories/update_cards', as: 'update_cards'
   get 'inventories/update_machines', as: 'update_machines'
   get 'inventories/swap', as: 'swap'
+  post 'inventories/quantity', as: 'quantity'
   
   resources :inventories
     

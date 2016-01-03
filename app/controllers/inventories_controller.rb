@@ -104,6 +104,19 @@ class InventoriesController < ApplicationController
 		@machine = Machine.find(params[:machine_id])
 		@inventory = Inventory.find(params[:id])
 		@machines = Machine.all.order(:category).order(:number)
+
+		@categories = Category.all
+		@grouped_machines = []
+		@categories.each do |c|
+			@parts = []
+			@machines.each do |m|
+				if m.category == c.id
+					@parts.push([c.title + " - " + m.number.to_s, m.id])
+				end
+			end
+			@grouped_machines.push([c.title, @parts])
+		end
+		
 	end
 
 	def update_cards

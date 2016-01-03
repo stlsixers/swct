@@ -11,10 +11,10 @@
 		.form-group
 
 			= label_tag :card_id, 'Card', class: 'control-label'
-			= select_tag :card_id, grouped_options_for_select(@grouped_card_sets),class: 'form-control js-example-basic-single', id: 'cards_select'
+			= select_tag :card_id, grouped_options_for_select(@grouped_card_sets), class: 'form-control cool-dropdown', id: 'cards_select'
 
 			= label_tag :machine_id, 'Machine', class: 'control-label'
-			= select_tag :machine_id, grouped_options_for_select(@grouped_machines),class: 'form-control js-example-basic-single', id: 'machines_select'
+			= select_tag :machine_id, grouped_options_for_select(@grouped_machines), class: 'form-control cool-dropdown', id: 'machines_select'
 
 			= label_tag :quantity, 'Quantity', class: 'control-label'
 			= text_field_tag :quantity, "", class: 'form-control'
@@ -23,7 +23,7 @@
 
 :javascript
 	$(document).ready(function() {
-		$(".js-example-basic-single").select2(
+		$(".cool-dropdown").select2(
 
 		);
 	});

@@ -2,12 +2,19 @@
 	.form-group
 		- if @machine.number?
 			= f.label :category, 'Category', :value => @machine.category, class: 'control-label'
-			= f.select :category, Category.all.collect {|c| [c.title, c.id]}, {}, class: 'form-control'
+			= f.select :category, Category.all.collect {|c| [c.title, c.id]}, {}, class: 'form-control cool-dropdown'
 			= f.label :number, 'Machine Number', :value => @machine.number, class: 'control-label'
 			= f.text_field :number, class: 'form-control'
 		-else
 			= f.label :category, 'Category', class: 'control-label'
-			= f.select :category, Category.all.collect {|c| [c.title, c.id]}, {}, class: 'form-control'
+			= f.select :category, Category.all.collect {|c| [c.title, c.id]}, {}, class: 'form-control cool-dropdown'
 			= f.label :number, 'Machine Number', class: 'control-label'
 			= f.text_field :number, class: 'form-control'
 	= f.submit 'Submit', class: 'btn btn-default'
+
+	:javascript
+	$(document).ready(function() {
+		$(".cool-dropdown").select2(
+
+		);
+	});

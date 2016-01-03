@@ -10,7 +10,7 @@
 		%h2 To:
 
 		= label_tag :swap_machine_id, 'Machine', class: 'control-label'
-		= select_tag :swap_machine_id, options_for_select(@machines.collect {|m| ["#{Category.find(m.category).try(:title)} ##{m.number}", m.id]}), class: 'form-control'	
+		= select_tag :swap_machine_id, grouped_options_for_select(@grouped_machines), class: 'form-control cool-dropdown'	
 
 		= hidden_field_tag :card_id, params[:card_id]
 		= hidden_field_tag :machine_id, params[:machine_id]
@@ -18,3 +18,10 @@
 		= hidden_field_tag :swap, true
 
 	= submit_tag 'Submit', class: 'btn btn-default'
+
+:javascript
+	$(document).ready(function() {
+		$(".cool-dropdown").select2(
+
+		);
+	});
