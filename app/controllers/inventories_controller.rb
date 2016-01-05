@@ -79,7 +79,7 @@ class InventoriesController < ApplicationController
 				@swap_inventory.update_attribute('quantity', @swap_inventory.quantity)	
 			end
 			flash[:notice] = "Swap successfully updated"
-			redirect_to inventories_path
+			redirect_to session.delete(:return_to)
 			
 		else
 			
@@ -103,7 +103,7 @@ class InventoriesController < ApplicationController
 		@card = Card.find(params[:card_id])
 		@machine = Machine.find(params[:machine_id])
 		@inventory = Inventory.find(params[:id])
-		@machines = Machine.all.order(:category).order(:number)
+		@machines = Machine.all.order(:category).sort_by {|a| (a.number.to_i)}
 
 		@categories = Category.all
 		@grouped_machines = []
@@ -116,7 +116,7 @@ class InventoriesController < ApplicationController
 			end
 			@grouped_machines.push([c.title, @parts])
 		end
-		
+		session[:return_to] ||= request.referer
 	end
 
 	def update_cards

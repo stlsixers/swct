@@ -4,14 +4,14 @@
       %tr 
         %th= smart_listing.sortable "Set Name (click to view all cards in set)", :name
         %th Add Card to Set
-        %th Edit
-        %th Delete
+        %th Edit Card Set Name
+        %th Delete Card Set
     %tbody
       - smart_listing.collection.each do |c|
         %tr
           %td= link_to c.name, card_set_cards_path(c)
           %td= link_to 'Add New Card', new_card_set_card_path(c), class: 'btn btn-primary'
-          %td= link_to 'Edit', edit_card_set_path(c), class: 'btn btn-success'
-          %td= link_to 'Delete',  card_set_path(c),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+          %td= link_to 'Edit Card Set Name', edit_card_set_path(c), class: 'btn btn-success'
+          %td= link_to 'Delete Card Set',  card_set_path(c),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 - else
   %p.warning No records!

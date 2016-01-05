@@ -22,13 +22,14 @@ class MachinesController < ApplicationController
 
 	def edit
 		@machine = Machine.find(params[:id])
+		session[:return_to] ||= request.referer
 	end
 
 	def update
 		@machine = Machine.find(params[:id])
 		@machine.update_attributes(machine_params)
 		flash[:notice] = "Machine successfully updated"
-		redirect_to machines_path
+		redirect_to session.delete(:return_to)
 	end
 
 	def destroy

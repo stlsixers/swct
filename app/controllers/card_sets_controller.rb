@@ -23,13 +23,14 @@ class CardSetsController < ApplicationController
 
 	def edit
 		@card_set = CardSet.find(params[:id])
+		session[:return_to] ||= request.referer
 	end
 
 	def update
 		@card_set = CardSet.find(params[:id])
 		@card_set.update_attributes(card_set_params)
 		flash[:notice] = "Card Set successfully updated"
-		redirect_to card_sets_path
+		redirect_to session.delete(:return_to)
 	end
 
 	def destroy

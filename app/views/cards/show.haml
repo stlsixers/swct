@@ -1,4 +1,5 @@
 %h3=raw "Card Name: #{@card.name}"
+%p= link_to '<i class="fa fa-pencil"></i> Edit Card Name/Notes'.html_safe, edit_card_path(id: @card.id)
 %p=raw "<strong>Set:</strong> #{link_to @card.card_set.name, card_set_cards_path(@card.card_set)}".html_safe
 %p= "<strong>Total Card Count:</strong> #{Inventory.where(:card_id => @card.id).present? ? Inventory.where(:card_id => @card.id).sum(:quantity) : "none reported"}".html_safe
 %p= "<strong>Card Notes:</strong> #{@card.notes}".html_safe

@@ -6,16 +6,16 @@
 					%th Card Name (click to view machines that have this card)
 					%th Total Count
 					%th Notes
-					%th Edit
-					%th Delete
+					%th Edit Card Name/Notes
+					%th Delete Card
 			%tbody
 				- smart_listing.collection.each do |c|
 					%tr
 						%td= link_to c.name, card_path(c)
 						%td= Inventory.where(:card_id => c.id).present? ? Inventory.where(:card_id => c.id).sum(:quantity) : "none reported"
 						%td= c.notes
-						%td= link_to 'Edit', edit_card_set_card_path(id: c.id), class: 'btn btn-success'
-						%td= link_to 'Delete',  card_set_card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+						%td= link_to 'Edit Card Name/Notes', edit_card_set_card_path(id: c.id), class: 'btn btn-success'
+						%td= link_to 'Delete Card',  card_set_card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 
 	- else
 		%p.warning No records!
@@ -27,8 +27,8 @@
 				%th Card Name (click to view machines that have this card)
 				%th Quantity
 				%th Card Notes
-				%th Edit
-				%th Delete
+				%th Edit Inventory
+				%th Delete Inventory
 
 			%tbody
 				- smart_listing.collection.each do |c|
@@ -39,8 +39,8 @@
 								%td= link_to c.name, card_path(c)
 								%td= i.quantity
 								%td= c.notes
-								%td= link_to 'Edit', edit_inventory_path(i), class: 'btn btn-success'
-								%td= link_to 'Delete',  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+								%td= link_to 'Edit Inventory', edit_inventory_path(i), class: 'btn btn-success'
+								%td= link_to 'Delete Inventory',  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 	- else
 		%p.warning No records!
 -else
@@ -51,8 +51,8 @@
 				%th Card Name (click to view machines that have this card)
 				%th Total Count
 				%th Notes
-				%th Edit
-				%th Delete
+				%th Edit Card Name/Notes
+				%th Delete Card
 
 			%tbody
 				- smart_listing.collection.each do |c|
@@ -62,7 +62,7 @@
 							%td= link_to card.name, card_path(card)
 							%td= Inventory.find_by_card_id(card.id).present? ? Inventory.where(:card_id => card.id).sum(:quantity) : "none reported"
 							%td= card.notes
-							%td= link_to 'Edit', edit_card_path(id: card.id), class: 'btn btn-success'
-							%td= link_to 'Delete',  card_path(id: card.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+							%td= link_to 'Edit Card Name/Notes', edit_card_path(id: card.id), class: 'btn btn-success'
+							%td= link_to 'Delete Card',  card_path(id: card.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 	- else
 		%p.warning No records!
