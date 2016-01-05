@@ -14,7 +14,10 @@ class InventoriesController < ApplicationController
 
 	def new
 		@inventory = []
-		@inventory << Inventory.new
+		# just a quick workaround
+		for i in 0..9
+			@inventory << Inventory.new
+		end
 		@card_sets = CardSet.all.order(:name)
 		@cards = Card.all.order(:name)
 		@machines = Machine.all.sort_by {|a| (a.number.to_i)}
@@ -48,10 +51,13 @@ class InventoriesController < ApplicationController
 			
 			params[:inventories].each do |i|
 				
-				if Inventory.find_by_card_id_and_machine_id(i[:card_id], i[:machine_id]).nil?
-					Inventory.create(inventory_params(i)).save
+				if i[:quantity] == ""
+
+				elsif Inventory.find_by_card_id_and_machine_id(params[:card_id], i[:machine_id]).nil?
+					Inventory.create(:card_id => params[:card_id], :machine_id => i[:machine_id], :quantity => i[:quantity]).save
+					# dont do it this way
 				else
-					inventory = Inventory.find_by_card_id_and_machine_id(i[:card_id], i[:machine_id])
+					inventory = Inventory.find_by_card_id_and_machine_id(params[:card_id], i[:machine_id])
 					quantity = inventory.quantity + i[:quantity].to_i
 					inventory.update_attribute('quantity', quantity)
 				end

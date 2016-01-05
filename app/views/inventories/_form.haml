@@ -1,16 +1,22 @@
 - if @inventory.kind_of?(Array)
+
 	= form_tag inventories_path, method: :post do |f|
 		.form-group
+			= label_tag :card_id, 'Card', class: 'control-label'
+			= select_tag :card_id, grouped_options_for_select(@grouped_card_sets), class: 'form-control cool-dropdown', id: 'cards_select'
+		.form-group.row
 			- @inventory.each do |inventory|
 				= fields_for 'inventories[]', inventory do |f|
-					= f.label :card_id, 'Card', class: 'control-label'
-					= f.select :card_id, grouped_options_for_select(@grouped_card_sets), {}, class: 'form-control cool-dropdown', id: 'cards_select'
-
-					= f.label :machine_id, 'Machine', class: 'control-label'
-					= f.select :machine_id, grouped_options_for_select(@grouped_machines), {}, {class: 'form-control cool-dropdown', id: 'machines_select'}
-
-					= f.label :quantity, 'Quantity', class: 'control-label'
-					= f.text_field :quantity, class: 'form-control'
+					.container
+						.col-sm-1
+							= f.label :machine_id, 'Machine', class: 'control-label'
+						.col-sm-2
+							= f.select :machine_id, grouped_options_for_select(@grouped_machines), {}, {class: 'form-control cool-dropdown', id: 'machines_select'}
+						.col-sm-1
+							= f.label :quantity, 'Quantity', class: 'control-label'
+						.col-sm-2
+							= f.text_field :quantity, class: 'form-control'
+					%br
 			
 		= submit_tag 'Submit', class: 'btn btn-default'
 
