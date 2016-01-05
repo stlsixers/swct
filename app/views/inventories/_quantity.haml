@@ -1,2 +1,14 @@
 = params[:card_id]
 = params[:machine_id]
+
+= form_tag inventories_path, method: :post do |f|
+	.form-group
+		- params[:machine_id].each do |m|
+
+			= label_tag :quantity, Category.find(Machine.find(m).category).try(:title) + " " + Machine.find(m).number.to_s, class: 'control-label'
+			= text_field_tag :quantity, "", class: 'form-control'
+
+		= hidden_field_tag :card_id, params[:card_id]
+		= hidden_field_tag :machine_id, params[:machine_id]
+		
+	= submit_tag 'Submit', class: 'btn btn-default'

@@ -13,7 +13,8 @@ class InventoriesController < ApplicationController
 	end
 
 	def new
-		@inventory = Inventory.new
+		@inventory = []
+		@inventory << Inventory.new
 		@card_sets = CardSet.all.order(:name)
 		@cards = Card.all.order(:name)
 		@machines = Machine.all.sort_by {|a| (a.number.to_i)}
@@ -44,19 +45,33 @@ class InventoriesController < ApplicationController
 	end
 
 	def create
-		if Inventory.find_by_card_id_and_machine_id(params[:card_id], params[:machine_id]).nil?
-			@inventory = Inventory.create(inventory_params)
-			if @inventory.save
-				flash[:notice] = "Pull successfully listed"
-				redirect_to inventories_path
-			else
-				flash[:error] = "Please don't leave any fields blank"
-				redirect_to inventories_path
+			
+			params[:inventories].each do |i|
+				
+				if Inventory.find_by_card_id_and_machine_id(i[:card_id], i[:machine_id]).nil?
+					Inventory.create(inventory_params(i)).save
+				else
+					inventory = Inventory.find_by_card_id_and_machine_id(i[:card_id], i[:machine_id])
+					quantity = inventory.quantity + i[:quantity].to_i
+					inventory.update_attribute('quantity', quantity)
+				end
 			end
-		else
-			flash[:error] = "Inventory for that card in the device already exists. Please edit the device count"
+
+			flash[:notice] = "Pull successfully listed"
 			redirect_to inventories_path
-		end
+
+			# if @inventory.save
+			# 	flash[:notice] = "Pull successfully listed"
+			# 	redirect_to inventories_path
+			# else
+			# 	flash[:error] = "Please don't leave any fields blank"
+			# 	redirect_to inventories_path
+			# end
+
+		# else
+		# 	flash[:error] = "Inventory for that card in the device already exists. Please edit the device count"
+		# 	redirect_to inventories_path
+		# end
 	end
 
 	def edit
@@ -83,8 +98,13 @@ class InventoriesController < ApplicationController
 			
 		else
 			
+			session[:return_to] ||= request.referer
 			@inventory = Inventory.find(params[:id])
-			@inventory.update_attributes(inventory_params_edit)
+			if !params[:status].nil?
+				@inventory.update_attributes(inventory_params)
+			else
+				@inventory.update_attributes(inventory_params_edit)
+			end
 			flash[:notice] = "Inventory successfully updated"
 			redirect_to session.delete(:return_to)					
 
@@ -135,12 +155,16 @@ class InventoriesController < ApplicationController
 
 	private
 
-	def inventory_params
-		params.permit(:card_id,:machine_id,:quantity)
-	end
+	# def inventory_params
+	# 	params.permit(:card_id,:machine_id,:quantity)
+	# end
 
 	def inventory_params_edit
 		params.require(:inventory).permit(:card_id,:machine_id,:quantity)
 	end
+
+	def inventory_params(my_params)
+    my_params.permit(:card_id, :machine_id, :quantity)
+  end
 
 end
