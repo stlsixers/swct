@@ -16,7 +16,7 @@ class InventoriesController < ApplicationController
 		@inventory = Inventory.new
 		@card_sets = CardSet.all.order(:name)
 		@cards = Card.all.order(:name)
-		@machines = Machine.all.order(:number)
+		@machines = Machine.all.sort_by {|a| (a.number.to_i)}
 
 		@grouped_card_sets = []
 		@card_sets.each do |c|
