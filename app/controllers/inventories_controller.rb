@@ -107,7 +107,7 @@ class InventoriesController < ApplicationController
 			session[:return_to] ||= request.referer
 			@inventory = Inventory.find(params[:id])
 			if !params[:status].nil?
-				@inventory.update_attributes(inventory_params)
+				@inventory.update_attributes(inventory_params2)
 			else
 				@inventory.update_attributes(inventory_params_edit)
 			end
@@ -161,9 +161,9 @@ class InventoriesController < ApplicationController
 
 	private
 
-	# def inventory_params
-	# 	params.permit(:card_id,:machine_id,:quantity)
-	# end
+	def inventory_params2
+		params.permit(:card_id,:machine_id,:quantity)
+	end
 
 	def inventory_params_edit
 		params.require(:inventory).permit(:card_id,:machine_id,:quantity)
