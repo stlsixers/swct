@@ -5,11 +5,15 @@
 			= f.select :category, Category.all.collect {|c| [c.title, c.id]}, {}, class: 'form-control cool-dropdown'
 			= f.label :number, 'Machine Number', :value => @machine.number, class: 'control-label'
 			= f.text_field :number, class: 'form-control'
+			= f.label :swct_name, 'SWCT Account Name', class: 'control-label'
+			= f.text_field :swct_name, :placeholder => "This can be blank", class: 'form-control'
 		-else
 			= f.label :category, 'Category', class: 'control-label'
 			= f.select :category, Category.all.collect {|c| [c.title, c.id]}, {}, class: 'form-control cool-dropdown'
 			= f.label :number, 'Machine Number', class: 'control-label'
 			= f.text_field :number, class: 'form-control'
+			= f.label :swct_name, 'SWCT Account Name', class: 'control-label'
+			= f.text_field :swct_name, :placeholder => "This can be blank", class: 'form-control'
 	= f.submit 'Submit', class: 'btn btn-default'
 
 	:javascript
