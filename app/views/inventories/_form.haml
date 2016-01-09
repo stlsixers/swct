@@ -15,7 +15,7 @@
 						.col-sm-1
 							= f.label :quantity, 'Quantity', class: 'control-label'
 						.col-sm-2
-							= f.text_field :quantity, class: 'form-control'
+							= f.text_field :quantity, :autocomplete => :off,class: 'form-control'
 					%br
 			
 		= submit_tag 'Submit', class: 'btn btn-default'

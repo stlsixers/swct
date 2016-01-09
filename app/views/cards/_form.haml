@@ -2,13 +2,13 @@
 	.form-group
 		- if @card.name?
 			= f.label :name, 'Card Name', :value => @card.name, class: 'control-label'
-			= f.text_field :name, class: 'form-control'
+			= f.text_field :name, :autofocus => true, class: 'form-control'
 			= f.label :notes, 'Notes', :value => @card.notes, class: 'control-label'
 			= f.text_field :notes, class: 'form-control'
 			= f.hidden_field :card_set_id, :value => @card.card_set_id
 		- elsif @card_set.present?
 			= f.label :name, 'Card Name', class: 'control-label'
-			= f.text_field :name, class: 'form-control'
+			= f.text_field :name, :autofocus => true, :autocomplete => :off, class: 'form-control'
 			= f.label :notes, 'Notes', class: 'control-label'
 			= f.text_field :notes, class: 'form-control'
 			= f.hidden_field :card_set_id, :value => @card_set.id
@@ -16,7 +16,7 @@
 			= f.label :card_set_id, 'Card Set', class: 'control-label'
 			= f.select :card_set_id, options_for_select(@card_sets.collect {|c| [c.name, c.id]}), {}, class: 'form-control card-set', id: 'card_sets_select'
 			= f.label :name, 'Card Name', class: 'control-label'
-			= f.text_field :name, class: 'form-control'
+			= f.text_field :name,:autofocus => true, :autocomplete => :off, class: 'form-control'
 			= f.label :notes, 'Notes', class: 'control-label'
 			= f.text_field :notes, class: 'form-control'
 	= f.submit 'Submit', class: 'btn btn-default'
