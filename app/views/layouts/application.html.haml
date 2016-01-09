@@ -21,8 +21,10 @@
 						%li.dropdown
 							= link_to 'Cards Management <span class="caret"></span>'.html_safe, '#'
 							%ul.dropdown-menu
-								%li= link_to 'View All Cards', cards_path
+								%li= link_to 'Create New Card Set', new_card_set_path
 								%li= link_to 'View All Card Sets', card_sets_path
+								%li= link_to 'Create New Card', new_card_path
+								%li= link_to 'View All Cards', cards_path
 						%li= link_to 'Machines/Devices', machines_path
 						%li.dropdown
 							= link_to 'Inventory Management <span class="caret"></span>'.html_safe, '#'

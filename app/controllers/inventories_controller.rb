@@ -20,6 +20,7 @@ class InventoriesController < ApplicationController
 		end
 		@card_sets = CardSet.all.order(:name)
 		@cards = Card.all.order(:name)
+		@card = Card.find(params[:card_id]) if params[:card_id]
 		@machines = Machine.all.sort_by {|a| (a.number.to_i)}
 
 		@grouped_card_sets = []

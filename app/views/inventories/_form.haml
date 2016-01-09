@@ -1,24 +1,44 @@
 - if @inventory.kind_of?(Array)
 
-	= form_tag inventories_path, method: :post do |f|
-		.form-group
-			= label_tag :card_id, 'Card', class: 'control-label'
-			= select_tag :card_id, grouped_options_for_select(@grouped_card_sets), class: 'form-control cool-dropdown', id: 'cards_select'
-		.form-group.row
-			- @inventory.each do |inventory|
-				= fields_for 'inventories[]', inventory do |f|
-					.container
-						.col-sm-1
-							= f.label :machine_id, 'Machine', class: 'control-label'
-						.col-sm-2
-							= f.select :machine_id, grouped_options_for_select(@grouped_machines), {}, {class: 'form-control cool-dropdown', id: 'machines_select'}
-						.col-sm-1
-							= f.label :quantity, 'Quantity', class: 'control-label'
-						.col-sm-2
-							= f.text_field :quantity, :autocomplete => :off,class: 'form-control'
-					%br
-			
-		= submit_tag 'Submit', class: 'btn btn-default'
+	- if params[:card_id]
+		= form_tag inventories_path, method: :post do |f|
+			= hidden_field_tag :card_id, params[:card_id]
+			.form-group.row
+				- @inventory.each do |inventory|
+					= fields_for 'inventories[]', inventory do |f|
+						.container
+							.col-sm-1
+								= f.label :machine_id, 'Machine', class: 'control-label'
+							.col-sm-2
+								= f.select :machine_id, grouped_options_for_select(@grouped_machines), {}, {class: 'form-control cool-dropdown', id: 'machines_select'}
+							.col-sm-1
+								= f.label :quantity, 'Quantity', class: 'control-label'
+							.col-sm-2
+								= f.text_field :quantity, :autocomplete => :off,class: 'form-control'
+						%br
+				
+			= submit_tag 'Submit', class: 'btn btn-default'
+
+	-else
+		= form_tag inventories_path, method: :post do |f|
+			.form-group
+				= label_tag :card_id, 'Card', class: 'control-label'
+				= select_tag :card_id, grouped_options_for_select(@grouped_card_sets), class: 'form-control cool-dropdown', id: 'cards_select'
+			.form-group.row
+				- @inventory.each do |inventory|
+					= fields_for 'inventories[]', inventory do |f|
+						.container
+							.col-sm-1
+								= f.label :machine_id, 'Machine', class: 'control-label'
+							.col-sm-2
+								= f.select :machine_id, grouped_options_for_select(@grouped_machines), {}, {class: 'form-control cool-dropdown', id: 'machines_select'}
+							.col-sm-1
+								= f.label :quantity, 'Quantity', class: 'control-label'
+							.col-sm-2
+								= f.text_field :quantity, :autocomplete => :off,class: 'form-control'
+						%br
+				
+			= submit_tag 'Submit', class: 'btn btn-default'
 
 		/ = form_tag quantity_path, method: :post do |f|
 		/ .form-group

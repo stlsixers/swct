@@ -6,6 +6,7 @@
 					%th Card Name (click to view machines that have this card)
 					%th Total Count
 					%th Notes
+					%th Add Inventory
 					%th Edit Card Name/Notes
 					%th Delete Card
 			%tbody
@@ -14,6 +15,7 @@
 						%td= link_to c.name, card_path(c)
 						%td= Inventory.where(:card_id => c.id).present? ? Inventory.where(:card_id => c.id).sum(:quantity) : "none reported"
 						%td= c.notes
+						%td= link_to 'Add Inventory', new_inventory_path(:card_id => c.id), class: 'btn btn-success'
 						%td= link_to 'Edit Card Name/Notes', edit_card_set_card_path(id: c.id), class: 'btn btn-success'
 						%td= link_to 'Delete Card',  card_set_card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 
@@ -57,7 +59,8 @@
 				%th Card Name (click to view machines that have this card)
 				%th Total Count
 				%th Notes
-				%th Edit Card Name/Notes
+				%th Add Inventory
+				%th Edit Card
 				%th Delete Card
 
 			%tbody
@@ -68,7 +71,8 @@
 							%td= link_to card.name, card_path(card)
 							%td= Inventory.find_by_card_id(card.id).present? ? Inventory.where(:card_id => card.id).sum(:quantity) : "none reported"
 							%td= card.notes
-							%td= link_to 'Edit Card Name/Notes', edit_card_path(id: card.id), class: 'btn btn-success'
+							%td= link_to 'Add Inventory', new_inventory_path(:card_id => card.id), class: 'btn btn-success'
+							%td= link_to 'Edit Card', edit_card_path(id: card.id), class: 'btn btn-success'
 							%td= link_to 'Delete Card',  card_path(id: card.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 	- else
 		%p.warning No records!
