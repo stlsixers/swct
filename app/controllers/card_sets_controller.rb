@@ -40,6 +40,28 @@ class CardSetsController < ApplicationController
 		redirect_to card_sets_path
 	end
 
+	def set_builder
+		@card_set = CardSet.find(params[:id])
+		@cards = @card_set.cards.where("name NOT LIKE '%Complete%'")
+		@machine_ids = []
+		@machines = []
+		@real_machines = []
+		@cards.each do |c|
+			c.inventories.each do |i|
+				@machine_ids.push([c.id,i.machine_id])
+			end
+		end
+		@unique = @machine_ids.uniq {|machine_ids| machine_ids[1]}
+		@diff = @machine_ids - @unique
+		@diff.each do |d|
+			@machines.push(d[1])
+		end
+		@machines = @machines.uniq
+		@machines.each do |m|
+			@real_machines.push(Machine.find(m))
+		end
+	end
+
 	private
 	def card_set_params
 		params.require(:card_set).permit(:name)

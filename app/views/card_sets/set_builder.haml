@@ -1,0 +1,12 @@
+%h2= @card_set.name
+%h4 These machines have cards from the same set:
+- @real_machines.each do |r|
+	%h5= Category.find(r.category).try(:title) + " " + r.number
+	- count = 0
+	- r.cards.each do |c|
+		-if c.name.include? "Complete"
+		-else
+			- if c.card_set_id == @card_set.id
+				%p= c.name
+				- count += 1
+	%p= count.to_s + "/" + @cards.count.to_s

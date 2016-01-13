@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'inventories/update_machines', as: 'update_machines'
   get 'inventories/swap', as: 'swap'
   post 'inventories/quantity', as: 'quantity'
+  get '/card_sets/:id/set_builder', to: 'card_sets#set_builder', as: 'set_builder'
   
   resources :inventories
     
