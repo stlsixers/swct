@@ -3,20 +3,22 @@
 	- if params[:card_id]
 		= form_tag inventories_path, method: :post do |f|
 			= hidden_field_tag :card_id, params[:card_id]
-			.form-group.row
+			.form-group
 				- @inventory.each do |inventory|
 					= fields_for 'inventories[]', inventory do |f|
 						.container
-							.col-sm-1
-								= f.label :machine_id, 'Machine', class: 'control-label'
-							.col-sm-2
-								= f.select :machine_id, grouped_options_for_select(@grouped_machines), {}, {class: 'form-control cool-dropdown', id: 'machines_select'}
-							.col-sm-1
-								= f.label :quantity, 'Quantity', class: 'control-label'
-							.col-sm-2
-								= f.text_field :quantity, :autocomplete => :off,class: 'form-control'
-						%br
-				
+							.row.inventory-form
+								.col-sm-1
+									= f.label :machine_id, 'Machine', class: 'control-label'
+								.col-sm-2
+									= f.select :machine_id, grouped_options_for_select(@grouped_machines), {}, {class: 'form-control cool-dropdown2', id: 'machines_select'}
+								.col-sm-1
+									= f.label :quantity, 'Quantity', class: 'control-label'
+								.col-sm-2
+									= f.text_field :quantity, :autocomplete => :off,class: 'form-control'
+			.btn.btn-default.add-button#btnAdd Add
+			.btn.btn-default.add-button#btnRemove Remove
+
 			= submit_tag 'Submit', class: 'btn btn-default'
 
 	-else
@@ -24,20 +26,21 @@
 			.form-group
 				= label_tag :card_id, 'Card', class: 'control-label'
 				= select_tag :card_id, grouped_options_for_select(@grouped_card_sets), class: 'form-control cool-dropdown', id: 'cards_select'
-			.form-group.row
+			.form-group
 				- @inventory.each do |inventory|
 					= fields_for 'inventories[]', inventory do |f|
 						.container
-							.col-sm-1
-								= f.label :machine_id, 'Machine', class: 'control-label'
-							.col-sm-2
-								= f.select :machine_id, grouped_options_for_select(@grouped_machines), {}, {class: 'form-control cool-dropdown', id: 'machines_select'}
-							.col-sm-1
-								= f.label :quantity, 'Quantity', class: 'control-label'
-							.col-sm-2
-								= f.text_field :quantity, :autocomplete => :off,class: 'form-control'
-						%br
-				.btn.btn-default.add-button Add
+							.row.inventory-form
+								.col-sm-1
+									= f.label :machine_id, 'Machine', class: 'control-label'
+								.col-sm-2
+									= f.select :machine_id, grouped_options_for_select(@grouped_machines), {}, {class: 'form-control cool-dropdown2', id: 'machines_select'}
+								.col-sm-1
+									= f.label :quantity, 'Quantity', class: 'control-label'
+								.col-sm-2
+									= f.text_field :quantity, :autocomplete => :off,class: 'form-control'
+			.btn.btn-default.add-button#btnAdd Add
+			.btn.btn-default.add-button#btnRemove Remove
 				
 			= submit_tag 'Submit', class: 'btn btn-default'
 
@@ -69,4 +72,18 @@
 		$(".cool-dropdown").select2(
 			
 		);
+		$(".cool-dropdown2").select2(
+			
+		);
+		$("#btnAdd").click(function(){
+			$(".cool-dropdown2").select2("destroy");
+			$originalDiv = $(".inventory-form").first();
+			$clonedDiv = $originalDiv.clone();
+
+			$clonedDiv.appendTo(".form-group .container")
+			$(".cool-dropdown2").select2();
+		});
+		$("#btnRemove").click(function(){
+			$(".inventory-form").last().remove();
+		});			
 	});

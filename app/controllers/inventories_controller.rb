@@ -15,9 +15,7 @@ class InventoriesController < ApplicationController
 	def new
 		@inventory = []
 		# just a quick workaround
-		for i in 0..9
-			@inventory << Inventory.new
-		end
+		@inventory << Inventory.new
 		@card_sets = CardSet.all.order(:name)
 		@cards = Card.all.order(:name)
 		@card = Card.find(params[:card_id]) if params[:card_id]
