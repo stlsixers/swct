@@ -48,7 +48,9 @@ class CardSetsController < ApplicationController
 		@real_machines = []
 		@cards.each do |c|
 			c.inventories.each do |i|
+				# if i.quantity != 0
 				@machine_ids.push([c.id,i.machine_id])
+				# end
 			end
 		end
 		@unique = @machine_ids.uniq {|machine_ids| machine_ids[1]}
