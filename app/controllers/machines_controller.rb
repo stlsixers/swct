@@ -42,7 +42,7 @@ class MachinesController < ApplicationController
 	private
 
 	def machine_params
-		params.require(:machine).permit(:category,:number,:swct_name)
+		params.require(:machine).permit(:category,:number,:swct_name,:email,:notes)
 	end
 
 end
