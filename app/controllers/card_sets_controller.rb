@@ -16,21 +16,28 @@ class CardSetsController < ApplicationController
 
 	def create
 		@card_set = CardSet.new(card_set_params)
-		@card_set.save
-		flash[:notice] = "Card Set successfully created"
-		redirect_to card_sets_path
+		if @card_set.save
+			flash[:notice] = "Card set successfully created."
+			redirect_to card_sets_path
+		else
+			flash.now[:error] = "Card set was not created successfully. Please enter a title."
+			render :new
+		end
 	end
 
 	def edit
 		@card_set = CardSet.find(params[:id])
-		session[:return_to] ||= request.referer
 	end
 
 	def update
 		@card_set = CardSet.find(params[:id])
-		@card_set.update_attributes(card_set_params)
-		flash[:notice] = "Card Set successfully updated"
-		redirect_to session.delete(:return_to)
+		if @card_set.update_attributes(card_set_params)
+			flash[:notice] = "Card set successfully updated."
+			redirect_to card_set_cards_path(params[:id])
+		else
+			flash.now[:error] = "Card set was not updated successfully. Please do not leave the name blank."
+			render :edit
+		end
 	end
 
 	def destroy

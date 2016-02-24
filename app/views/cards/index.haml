@@ -1,4 +1,5 @@
 - if @card_set
+	- content_for :title, "#{@card_set.name}"
 	%h1= @card_set.name
 	%p= link_to '<i class="fa fa-pencil"></i> Edit Card Set Name'.html_safe, edit_card_set_path(@card_set)
 	%p= link_to 'Add New Card to This Set', new_card_set_card_path(@card_set), class: 'btn btn-primary'
@@ -12,6 +13,7 @@
 	= smart_listing_render(:cards)
 
 - elsif @machine
+	- content_for :title, "#{Category.find(@machine.category).try(:title)} #{@machine.number}"
 	%h1= Category.find(@machine.category).try(:title) + " #" + @machine.number.to_s
 	%p= "<strong>SWCT Account Name:</strong> #{@machine.swct_name}".html_safe
 	%p= link_to '<i class="fa fa-pencil"></i> Edit Machine Details'.html_safe, edit_machine_path(@machine)
@@ -24,6 +26,7 @@
 	= smart_listing_render(:cards)
 	
 -else
+	- content_for :title, "All Cards"
 	%h1 All Cards
 	%p= link_to 'Add New Card to A Set', new_card_path, class: 'btn btn-primary'
 	= smart_listing_controls_for(:cards, {class: "form-inline text-right"}) do
