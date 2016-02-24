@@ -1,3 +1,4 @@
+- content_for :title, "#{@card.card_set.name} #{@card.name}"
 %h3=raw "Card Name: #{@card.name}"
 %p= link_to '<i class="fa fa-pencil"></i> Edit Card Name/Notes'.html_safe, edit_card_path(id: @card.id)
 %p=raw "<strong>Set:</strong> #{link_to @card.card_set.name, card_set_cards_path(@card.card_set)}".html_safe

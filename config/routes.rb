@@ -15,7 +15,9 @@ Rails.application.routes.draw do
   post 'inventories/quantity', as: 'quantity'
   get '/card_sets/:id/set_builder', to: 'card_sets#set_builder', as: 'set_builder'
   
-  resources :inventories
+  resources :inventories do
+    
+  end
     
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
