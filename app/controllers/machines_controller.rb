@@ -5,8 +5,7 @@ class MachinesController < ApplicationController
 	helper  SmartListing::Helper
 
 	def index
-		machines_scope = Machine.all.sort_by {|a| (a.number.to_i)}
-		@machines = smart_listing_create(:machines, machines_scope, partial: "machines/list")
+		@machines = Machine.all.sort_by {|a| (a.number.to_i)}
 	end
 
 	def new

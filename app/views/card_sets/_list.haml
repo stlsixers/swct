@@ -13,5 +13,6 @@
           %td= link_to 'Add New Card', new_card_set_card_path(c), class: 'btn btn-primary'
           %td= link_to 'Edit Card Set Name', edit_card_set_path(c), class: 'btn btn-success'
           %td= link_to 'Delete Card Set',  card_set_path(c),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+  = smart_listing.paginate
 - else
   %p.warning No records!

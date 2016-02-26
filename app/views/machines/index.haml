@@ -2,4 +2,68 @@
 %h1 Machines/Devices
 %p= link_to 'Create New Machine/Device', new_machine_path, class: 'btn btn-primary'\
 
-= smart_listing_render(:machines)
+%ul.nav.nav-tabs
+	%li.active= link_to "Tita PC", "#tita", data: { toggle: 'tab' }
+	%li= link_to "Tito PC", "#tito", data: { toggle: 'tab' }
+	%li= link_to "Devices", "#device", data: { toggle: 'tab' }
+	.tab-content
+		.tab-pane.fade.in.active#tita
+			%table.table.table-bordered.table-hover
+				%thead
+					%th Machine Number/Name (click to view all cards in machine)
+					%th SWCT Account Name
+					%th E-Mail
+					%th Notes
+					%th Edit Machine Details
+					%th Delete Machine
+
+				%tbody
+					- @machines.each do |m|
+						- if m.category == 0
+							%tr
+								%td= link_to "##{m.number}", machine_cards_path(m)
+								%td= m.swct_name
+								%td= m.email
+								%td= m.notes
+								%td= link_to 'Edit Machine Details', edit_machine_path(m), class: 'btn btn-success'
+								%td= link_to 'Delete Machine',  machine_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+		.tab-pane.fade#tito
+			%table.table.table-bordered.table-hover
+				%thead
+					%th Machine Number/Name (click to view all cards in machine)
+					%th SWCT Account Name
+					%th E-Mail
+					%th Notes
+					%th Edit Machine Details
+					%th Delete Machine
+
+				%tbody
+					- @machines.each do |m|
+						- if m.category == 1
+							%tr
+								%td= link_to "##{m.number}", machine_cards_path(m)
+								%td= m.swct_name
+								%td= m.email
+								%td= m.notes
+								%td= link_to 'Edit Machine Details', edit_machine_path(m), class: 'btn btn-success'
+								%td= link_to 'Delete Machine',  machine_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+		.tab-pane.fade#device
+			%table.table.table-bordered.table-hover
+				%thead
+					%th Machine Number/Name (click to view all cards in machine)
+					%th SWCT Account Name
+					%th E-Mail
+					%th Notes
+					%th Edit Machine Details
+					%th Delete Machine
+
+				%tbody
+					- @machines.each do |m|
+						- if m.category == 2
+							%tr
+								%td= link_to "##{m.number}", machine_cards_path(m)
+								%td= m.swct_name
+								%td= m.email
+								%td= m.notes
+								%td= link_to 'Edit Machine Details', edit_machine_path(m), class: 'btn btn-success'
+								%td= link_to 'Delete Machine',  machine_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

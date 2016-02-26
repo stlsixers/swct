@@ -17,12 +17,6 @@
 	%h1= Category.find(@machine.category).try(:title) + " #" + @machine.number.to_s
 	%p= "<strong>SWCT Account Name:</strong> #{@machine.swct_name}".html_safe
 	%p= link_to '<i class="fa fa-pencil"></i> Edit Machine Details'.html_safe, edit_machine_path(@machine)
-	= smart_listing_controls_for(:cards, {class: "form-inline text-right"}) do
-		.form-group.filter.input-append
-			= text_field_tag :filter, '', class: "search form-control", placeholder: "Search cards or set ID...", autocomplete: "off"
-			%button.btn-primary.disabled{type: "submit"}
-				%span.glyphicon.glyphicon-search
-	%p
 	= smart_listing_render(:cards)
 	
 -else
@@ -31,7 +25,7 @@
 	%p= link_to 'Add New Card to A Set', new_card_path, class: 'btn btn-primary'
 	= smart_listing_controls_for(:cards, {class: "form-inline text-right"}) do
 		.form-group.filter.input-append
-			= text_field_tag :filter, '', class: "search form-control", placeholder: "Search cards or set ID...", autocomplete: "off"
+			= text_field_tag :filter, '', class: "search form-control", placeholder: "Search cards...", autocomplete: "off"
 			%button.btn-primary.disabled{type: "submit"}
 				%span.glyphicon.glyphicon-search
 	%p

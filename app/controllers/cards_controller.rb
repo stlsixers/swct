@@ -8,7 +8,7 @@ class CardsController < ApplicationController
 	def index
 		if (params[:card_set_id])
 			@card_set = CardSet.find(params[:card_set_id])
-			cards_scope = @card_set.cards
+			cards_scope = @card_set.cards.includes(:inventories)
 			cards_scope = cards_scope.where("lower(name) LIKE '%#{params[:filter].downcase}%'") if params[:filter]
 			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", default_sort: {name: "asc"})
 		elsif (params[:machine_id])
@@ -16,16 +16,11 @@ class CardsController < ApplicationController
 			@cards = @machine.cards
 			@inventories = @machine.inventories
 			cards_scope = @cards
-			cards_scope = cards_scope.joins(:card_set).where('lower(card_sets.name) LIKE ? OR lower(cards.name) LIKE ?', "%#{params[:filter].downcase}%", "%#{params[:filter].downcase}%").uniq.order('card_sets.name') if params[:filter]
-			# cards_scope = cards_scope.where("lower(name) LIKE '%#{params[:filter].downcase}%'") if params[:filter]
 			@cards = smart_listing_create(:cards, cards_scope.joins(:card_set), partial: "cards/list", sort_attributes: [[:set_name, "card_sets.name"]], default_sort: {set_name: "asc"})
 		else
-			# @cards = CardSet.includes(:cards).all
-			@cards = Card.includes(:card_set, :inventories).all
-			# @cards = Card.joins(:card_set)
-			# check why uniq and distinct dont make a difference
+			@cards = Card.includes(:card_set, :inventories)
 			cards_scope = @cards
-			cards_scope = CardSet.joins(:cards).where('lower(card_sets.name) LIKE ? OR lower(cards.name) LIKE ?', "%#{params[:filter].downcase}%", "%#{params[:filter].downcase}%").uniq if params[:filter]
+			cards_scope = Card.includes(:card_set, :inventories).where('lower(cards.name) LIKE ?', "%#{params[:filter].downcase}%").uniq if params[:filter]
 			@cards = smart_listing_create(:cards, cards_scope, partial: "cards/list", sort_attributes: [[:set_name, "card_sets.name"]], default_sort: {set_name: "asc"})
 		end
 	end
@@ -33,7 +28,6 @@ class CardsController < ApplicationController
 	def show
 		@card = Card.find(params[:id])
 		@inventories = @card.machines.sort_by {|a| (a.number.to_i)}
-		@machines = smart_listing_create(:machines, @inventories, partial: "cards/listing")
 	end
 
 	def new

@@ -13,12 +13,12 @@
 				- smart_listing.collection.each do |c|
 					%tr
 						%td= link_to c.name, card_path(c)
-						%td= Inventory.where(:card_id => c.id).present? ? Inventory.where(:card_id => c.id).sum(:quantity) : "none reported"
+						%td= c.inventories.present? ? c.inventories.map(&:quantity).sum : "Sold Out"
 						%td= c.notes
 						%td= link_to 'Add Inventory', new_inventory_path(:card_id => c.id), class: 'btn btn-success'
 						%td= link_to 'Edit Card Name/Notes', edit_card_set_card_path(id: c.id), class: 'btn btn-success'
 						%td= link_to 'Delete Card',  card_set_card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
-
+		= smart_listing.paginate					
 	- else
 		%p.warning No records!
 - elsif @machine
@@ -49,6 +49,7 @@
 								%td= link_to '<i class="fa fa-plus-circle fa-2x"></i>'.html_safe, inventory_path(i, :machine_id => i.machine_id, :card_id => c.id, :quantity => q, :status => 'add'), :method => :put
 								%td= link_to '<i class="fa fa-minus-circle fa-2x"></i>'.html_safe, inventory_path(i, :machine_id => i.machine_id, :card_id => c.id, :quantity => nq, :status => 'subtract'), :method => :put
 								%td= link_to 'Delete Inventory',  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+		= smart_listing.paginate
 	- else
 		%p.warning No records!
 -else
@@ -68,10 +69,11 @@
 					%tr
 						%td= link_to c.card_set.name, card_set_cards_path(c.card_set)
 						%td= link_to c.name, card_path(c)
-						%td= c.inventories.present? ? c.inventories.map(&:quantity).sum : "none reported"
+						%td= c.inventories.present? ? c.inventories.map(&:quantity).sum : "Sold Out"
 						%td= c.notes
 						%td= link_to 'Add Inventory', new_inventory_path(:card_id => c.id), class: 'btn btn-success'
 						%td= link_to 'Edit Card', edit_card_path(id: c.id), class: 'btn btn-success'
 						%td= link_to 'Delete Card',  card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+		= smart_listing.paginate
 	- else
 		%p.warning No records!
