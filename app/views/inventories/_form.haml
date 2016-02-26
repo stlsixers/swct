@@ -42,7 +42,7 @@
 			.btn.btn-default.add-button#btnAdd Add
 			.btn.btn-default.add-button#btnRemove Remove
 				
-			= submit_tag 'Submit', class: 'btn btn-default'
+			= submit_tag 'Submit', class: 'btn btn-default', data: { disable_with: "Please wait..." }
 
 		/ = form_tag quantity_path, method: :post do |f|
 		/ .form-group

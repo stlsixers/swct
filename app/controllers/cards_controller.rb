@@ -38,7 +38,6 @@ class CardsController < ApplicationController
 
 	def new
 		@card = Card.new
-		session[:return_to] ||= request.referer
 		if (params[:card_set_id])
 			@card_set = CardSet.find(params[:card_set_id])
 		else
@@ -48,21 +47,28 @@ class CardsController < ApplicationController
 
 	def create
 		@card = Card.new(card_params)
-		@card.save
-		flash[:notice] = "Card successfully created"
-		redirect_to session.delete(:return_to)
+		if @card.save
+			flash[:notice] = "Card successfully created"
+			redirect_to card_path(@card)
+		else
+			flash.now[:error] = "Card was not created successfully. Please enter a title."
+			render :new
+		end
 	end
 
 	def edit
 		@card = Card.find(params[:id])
-		session[:return_to] ||= request.referer
 	end
 
 	def update
 		@card = Card.find(params[:id])
-		@card.update_attributes(card_params)
-		flash[:notice] = "Card successfully updated"
-		redirect_to session.delete(:return_to)
+		 if @card.update_attributes(card_params)
+			flash[:notice] = "Card successfully updated"
+			redirect_to card_set_cards_path(@card)
+		else
+			flash.now[:error] = "Card was not updated successfully. Please do not leave the name blank."
+			render :edit
+		end
 	end
 
 	def destroy
