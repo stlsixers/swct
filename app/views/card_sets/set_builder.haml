@@ -6,7 +6,7 @@
 	- count = 0
 	- r.cards.each do |c|
 		-if c.name.include? "Complete"
-		-else
+		-elsif Inventory.where(machine_id: r.id, card_id: c.id).first.quantity != 0
 			- if c.card_set_id == @card_set.id
 				%p= c.name
 				- count += 1
