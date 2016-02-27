@@ -1,20 +1,20 @@
 - unless smart_listing.empty?
-  %table.table.table-bordered.table-hover.text-center
+  %table.table.table-bordered.table-hover
     %thead
-      %tr.text-center
+      %tr
         %th= smart_listing.sortable "Set Name", :name
         %th Notes
         %th.text-center Actions
     %tbody
       - smart_listing.collection.each do |c|
         %tr
-          %td.text-left
-            = link_to '<i class="fa fa-eye fa-lg"></i>'.html_safe, card_set_cards_path(c)
-            = best_in_place c, :name, as: :input, :html_attrs => {:size => 100}
-          %td= best_in_place c, :notes, as: :textarea
           %td
-            = link_to '<i class="fa fa-plus-circle fa-lg"></i> Add Card'.html_safe, new_card_set_card_path(c)
-            = link_to '<i class="fa fa-trash fa-lg"></i> Delete Set'.html_safe,  card_set_path(c),  method: :delete, data: { confirm: 'Are you sure?' }
+            = link_to '<i class="fa fa-eye fa-lg"></i>'.html_safe, card_set_cards_path(c)
+            = best_in_place c, :name, as: :input, :html_attrs => { size: '50%'}
+          %td= best_in_place c, :notes, as: :textarea
+          %td.text-center
+            = link_to '<i class="fa fa-plus-circle fa-lg"></i> Add Card'.html_safe, new_card_set_card_path(c), class: 'btn btn-success'
+            = link_to '<i class="fa fa-trash fa-lg"></i> Delete'.html_safe,  card_set_path(c),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
   = smart_listing.paginate
 - else
   %p.warning No records!

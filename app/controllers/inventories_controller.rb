@@ -89,16 +89,27 @@ class InventoriesController < ApplicationController
 			
 		else
 			
-			session[:return_to] ||= request.referer
 			@inventory = Inventory.find(params[:id])
 			if !params[:status].nil?
-				@inventory.update_attributes(inventory_params2)
-			else
-				@inventory.update_attributes(inventory_params_edit)
-			end
-			flash[:notice] = "Inventory successfully updated"
-			redirect_to session.delete(:return_to)					
 
+				session[:return_to] ||= request.referer
+				@inventory.update_attributes(inventory_params2)
+				flash[:notice] = "Inventory successfully updated"
+				redirect_to session.delete(:return_to)
+
+			else
+				
+				respond_to do |format|
+			    if @inventory.update_attributes(inventory_params_edit)
+			      format.html { redirect_to(@inventory, :notice => 'Inventory was successfully updated.') }
+			      format.json { respond_with_bip(@inventory) }
+			    else
+			      format.html { render :action => "edit" }
+			      format.json { respond_with_bip(@inventory) }
+			    end
+		  	end
+
+			end			
 		end
 	end
 

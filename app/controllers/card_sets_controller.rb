@@ -41,13 +41,6 @@ class CardSetsController < ApplicationController
 	      format.json { respond_with_bip(@card_set) }
 	    end
   	end
-		# if @card_set.update_attributes(card_set_params)
-		# 	flash[:notice] = "Card set successfully updated."
-		# 	redirect_to card_set_cards_path(@card_set)
-		# else
-		# 	flash.now[:error] = "Card set was not updated successfully. Please do not leave the name blank."
-		# 	render :edit
-		# end
 	end
 
 	def destroy

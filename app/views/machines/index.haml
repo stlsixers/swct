@@ -10,60 +10,72 @@
 		.tab-pane.fade.in.active#tita
 			%table.table.table-bordered.table-hover
 				%thead
-					%th Machine Number/Name (click to view all cards in machine)
+					%th Machine
 					%th SWCT Account Name
 					%th E-Mail
 					%th Notes
-					%th Edit Machine Details
-					%th Delete Machine
+					%th.text-center Actions
 
 				%tbody
 					- @machines.each do |m|
 						- if m.category == 0
 							%tr
-								%td= link_to "##{m.number}", machine_cards_path(m)
-								%td= m.swct_name
-								%td= m.email
-								%td= m.notes
-								%td= link_to 'Edit Machine Details', edit_machine_path(m), class: 'btn btn-success'
-								%td= link_to 'Delete Machine',  machine_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+								%td
+									= link_to '<i class="fa fa-eye fa-lg"></i>'.html_safe, machine_cards_path(m)
+									= best_in_place m, :number, as: :input, :html_attrs => { size: '50%'}
+								%td= best_in_place m, :swct_name, as: :input, :html_attrs => { size: '50%'}
+								%td= best_in_place m, :email, as: :input, :html_attrs => { size: '50%'}
+								%td= best_in_place m, :notes, as: :textarea
+								%td.text-center
+									= link_to '<i class="fa fa-pencil fa-lg"></i> Edit Machine'.html_safe, edit_machine_path(m), class: 'btn btn-success'
+									= link_to '<i class="fa fa-trash fa-lg"></i> Delete'.html_safe,  machine_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 		.tab-pane.fade#tito
 			%table.table.table-bordered.table-hover
 				%thead
-					%th Machine Number/Name (click to view all cards in machine)
+					%th Machine
 					%th SWCT Account Name
 					%th E-Mail
 					%th Notes
-					%th Edit Machine Details
-					%th Delete Machine
+					%th.text-center Actions
 
 				%tbody
 					- @machines.each do |m|
 						- if m.category == 1
 							%tr
-								%td= link_to "##{m.number}", machine_cards_path(m)
-								%td= m.swct_name
-								%td= m.email
-								%td= m.notes
-								%td= link_to 'Edit Machine Details', edit_machine_path(m), class: 'btn btn-success'
-								%td= link_to 'Delete Machine',  machine_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+								%td
+									= link_to '<i class="fa fa-eye fa-lg"></i>'.html_safe, machine_cards_path(m)
+									= best_in_place m, :number, as: :input, :html_attrs => { size: '50%'}
+								%td= best_in_place m, :swct_name, as: :input, :html_attrs => { size: '50%'}
+								%td= best_in_place m, :email, as: :input, :html_attrs => { size: '50%'}
+								%td= best_in_place m, :notes, as: :textarea
+								%td.text-center
+									= link_to '<i class="fa fa-pencil fa-lg"></i> Edit Machine'.html_safe, edit_machine_path(m), class: 'btn btn-success'
+									= link_to '<i class="fa fa-trash fa-lg"></i> Delete'.html_safe,  machine_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 		.tab-pane.fade#device
 			%table.table.table-bordered.table-hover
 				%thead
-					%th Machine Number/Name (click to view all cards in machine)
+					%th Machine
 					%th SWCT Account Name
 					%th E-Mail
 					%th Notes
-					%th Edit Machine Details
-					%th Delete Machine
+					%th.text-center Actions
 
 				%tbody
 					- @machines.each do |m|
 						- if m.category == 2
 							%tr
-								%td= link_to "##{m.number}", machine_cards_path(m)
-								%td= m.swct_name
-								%td= m.email
-								%td= m.notes
-								%td= link_to 'Edit Machine Details', edit_machine_path(m), class: 'btn btn-success'
-								%td= link_to 'Delete Machine',  machine_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+								%td
+									= link_to '<i class="fa fa-eye fa-lg"></i>'.html_safe, machine_cards_path(m)
+									= best_in_place m, :number, as: :input, :html_attrs => { size: '50%'}
+								%td= best_in_place m, :swct_name, as: :input, :html_attrs => { size: '50%'}
+								%td= best_in_place m, :email, as: :input, :html_attrs => { size: '50%'}
+								%td= best_in_place m, :notes, as: :textarea
+								%td.text-center
+									= link_to '<i class="fa fa-pencil fa-lg"></i> Edit Machine'.html_safe, edit_machine_path(m), class: 'btn btn-success'
+									= link_to '<i class="fa fa-trash fa-lg"></i> Delete'.html_safe,  machine_path(m),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+
+:javascript
+	$(document).ready(function() {
+	  /* Activating Best In Place */
+	  jQuery(".best_in_place").best_in_place();
+	});

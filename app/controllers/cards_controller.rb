@@ -56,13 +56,16 @@ class CardsController < ApplicationController
 
 	def update
 		@card = Card.find(params[:id])
-		 if @card.update_attributes(card_params)
-			flash[:notice] = "Card successfully updated"
-			redirect_to card_set_cards_path(@card)
-		else
-			flash.now[:error] = "Card was not updated successfully. Please do not leave the name blank."
-			render :edit
-		end
+
+		respond_to do |format|
+	    if @card.update_attributes(card_params)
+	      format.html { redirect_to(@card, :notice => 'Machine was successfully updated.') }
+	      format.json { respond_with_bip(@card) }
+	    else
+	      format.html { render :action => "edit" }
+	      format.json { respond_with_bip(@card) }
+	    end
+	  end
 	end
 
 	def destroy
