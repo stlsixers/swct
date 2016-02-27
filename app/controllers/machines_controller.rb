@@ -14,9 +14,13 @@ class MachinesController < ApplicationController
 
 	def create
 		@machine = Machine.create(machine_params)
-		@machine.save
-		flash[:notice] = "Machine successfully created"
-		redirect_to machines_path
+		if @machine.save
+			flash[:notice] = "Machine successfully created"
+			redirect_to machines_path
+		else
+			flash.now[:error] = "Machine was not created successfully. Please enter a name/number."
+			render :new
+		end
 	end
 
 	def edit
@@ -26,9 +30,16 @@ class MachinesController < ApplicationController
 
 	def update
 		@machine = Machine.find(params[:id])
-		@machine.update_attributes(machine_params)
-		flash[:notice] = "Machine successfully updated"
-		redirect_to session.delete(:return_to)
+
+		respond_to do |format|
+	    if @machine.update_attributes(machine_params)
+	      format.html { redirect_to(@machine, :notice => 'Machine was successfully updated.') }
+	      format.json { respond_with_bip(@machine) }
+	    else
+	      format.html { render :action => "edit" }
+	      format.json { respond_with_bip(@machine) }
+	    end
+	  end
 	end
 
 	def destroy

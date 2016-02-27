@@ -1,9 +1,12 @@
 - content_for :title, "#{@card.card_set.name} #{@card.name}"
-%h3=raw "Card Name: #{@card.name}"
-%p= link_to '<i class="fa fa-pencil"></i> Edit Card Name/Notes'.html_safe, edit_card_path(id: @card.id)
+%h3
+	=raw "Card Name: " 
+	= best_in_place @card, :name, as: :input, :html_attrs => { size: '50%'}
+%p
+	= "<strong>Card Notes:</strong> ".html_safe
+	= best_in_place @card, :notes, as: :textarea
 %p=raw "<strong>Set:</strong> #{link_to @card.card_set.name, card_set_cards_path(@card.card_set)}".html_safe
 %p= "<strong>Total Card Count:</strong> #{Inventory.where(:card_id => @card.id).present? ? Inventory.where(:card_id => @card.id).sum(:quantity) : "none reported"}".html_safe
-%p= "<strong>Card Notes:</strong> #{@card.notes}".html_safe
 %p= link_to '<i class="fa fa-pencil"></i> Add Inventory'.html_safe, new_inventory_path(:card_id => @card.id)
 
 - unless @inventories.empty?
@@ -11,13 +14,9 @@
 		%h4= c.title
 		%table.table.table-bordered.table-hover
 			%thead
-				%th Machine/Device #
+				%th Machine # & Account
 				%th Quantity
-				%th Edit Inventory
-				%th Add +1
-				%th Remove -1
-				%th Swap
-				%th Delete Inventory
+				%th.text-center Actions
 
 			%tbody
 				- @inventories.each do |i|
@@ -26,14 +25,23 @@
 							- @query = Inventory.where(:machine_id => i.id).where(:card_id => @card.id).take
 							- q = @query.quantity+1
 							- nq = @query.quantity-1
-							%td= link_to " #" + i.number.to_s, machine_cards_path(i)
-							%td= @query.quantity
-							%td= link_to 'Edit Inventory', edit_inventory_path(@query), class: 'btn btn-success'
-							%td= link_to '<i class="fa fa-plus-circle fa-2x"></i>'.html_safe, inventory_path(@query, :machine_id => i.id, :card_id => @card.id, :quantity => q, :status => 'add'), :method => :put
-							%td= link_to '<i class="fa fa-minus-circle fa-2x"></i>'.html_safe, inventory_path(@query, :machine_id => i.id, :card_id => @card.id, :quantity => nq, :status => 'subtract'), :method => :put
-							%td= link_to 'Swap', swap_path(:card_id => @card.id, :machine_id => i.id, :id => @query.id), class: 'btn btn-success'
-							%td= link_to 'Delete Inventory',  inventory_path(@query),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+							%td= link_to " #" + i.number.to_s + " (" + i.swct_name.to_s + ")", machine_cards_path(i)
+							%td= best_in_place @query, :quantity, as: :input, :html_attrs => { size: '3'}, class: 'quantity'
+							%td.text-center
+								= link_to '<i class="fa fa-plus-circle fa-lg"></i> Add 1'.html_safe, inventory_path(@query, :machine_id => i.id, :card_id => @card.id, :quantity => q, :status => 'add'), :method => :put, class: 'btn btn-primary'
+								= link_to '<i class="fa fa-minus-circle fa-lg"></i> Subtract 1'.html_safe, inventory_path(@query, :machine_id => i.id, :card_id => @card.id, :quantity => nq, :status => 'subtract'), :method => :put, class: 'btn btn-warning'
+								= link_to 'Swap', swap_path(:card_id => @card.id, :machine_id => i.id, :id => @query.id), class: 'btn btn-success'
+								= link_to '<i class="fa fa-trash fa-lg"></i> Delete'.html_safe,  inventory_path(@query),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 - else
 	%p
 		%i.fa.fa-exclamation-triangle
 		%strong No Inventory Listed for this Card!
+
+:javascript
+	$(document).ready(function() {
+	  /* Activating Best In Place */
+	  jQuery(".best_in_place").best_in_place();
+	  $('.quantity').change(function() {
+			window.location.reload();
+		});
+	});

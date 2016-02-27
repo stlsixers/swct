@@ -3,21 +3,21 @@
 		%table.table.table-bordered.table-hover
 			%thead
 				%tr 
-					%th Card Name (click to view machines that have this card)
+					%th Card
 					%th Total Count
 					%th Notes
-					%th Add Inventory
-					%th Edit Card Name/Notes
-					%th Delete Card
+					%th.text-center Actions
 			%tbody
 				- smart_listing.collection.each do |c|
 					%tr
-						%td= link_to c.name, card_path(c)
+						%td
+							= link_to '<i class="fa fa-eye fa-lg"></i>'.html_safe, card_path(c)
+							= best_in_place c, :name, as: :input, :html_attrs => { size: '50%'}
 						%td= c.inventories.present? ? c.inventories.map(&:quantity).sum : "Sold Out"
-						%td= c.notes
-						%td= link_to 'Add Inventory', new_inventory_path(:card_id => c.id), class: 'btn btn-success'
-						%td= link_to 'Edit Card Name/Notes', edit_card_set_card_path(id: c.id), class: 'btn btn-success'
-						%td= link_to 'Delete Card',  card_set_card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+						%td= best_in_place c, :notes, as: :textarea
+						%td.text-center
+							= link_to '<i class="fa fa-plus-circle fa-lg"></i> Add Inventory'.html_safe, new_inventory_path(:card_id => c.id), class: 'btn btn-success'
+							= link_to '<i class="fa fa-trash fa-lg"></i> Delete'.html_safe,  card_set_card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 		= smart_listing.paginate					
 	- else
 		%p.warning No records!
@@ -25,14 +25,11 @@
 	- unless smart_listing.empty?
 		%table.table.table-bordered.table-hover
 			%thead
-				%th Card Set (click to view all cards in set)
-				%th Card Name (click to view machines that have this card)
+				%th Set
+				%th Card
 				%th Quantity
-				%th Card Notes
-				%th Edit Inventory
-				%th Add +1
-				%th Remove -1
-				%th Delete Inventory
+				%th Notes
+				%th.text-center Actions
 
 			%tbody
 				- smart_listing.collection.each do |c|
@@ -41,14 +38,18 @@
 							%tr
 								- q = i.quantity+1
 								- nq = i.quantity-1
-								%td= link_to c.card_set.name, card_set_cards_path(c.card_set)
-								%td= link_to c.name, card_path(c)
-								%td= i.quantity
-								%td= c.notes
-								%td= link_to 'Edit Inventory', edit_inventory_path(i), class: 'btn btn-success'
-								%td= link_to '<i class="fa fa-plus-circle fa-2x"></i>'.html_safe, inventory_path(i, :machine_id => i.machine_id, :card_id => c.id, :quantity => q, :status => 'add'), :method => :put
-								%td= link_to '<i class="fa fa-minus-circle fa-2x"></i>'.html_safe, inventory_path(i, :machine_id => i.machine_id, :card_id => c.id, :quantity => nq, :status => 'subtract'), :method => :put
-								%td= link_to 'Delete Inventory',  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+								%td
+									= link_to '<i class="fa fa-eye fa-lg"></i>'.html_safe, card_set_cards_path(c.card_set)
+									= best_in_place c.card_set, :name, as: :input, :html_attrs => { size: '50%'}
+								%td
+									=link_to '<i class="fa fa-eye fa-lg"></i>'.html_safe, card_path(c)
+									= best_in_place c, :name, as: :input, :html_attrs => { size: '50%'}
+								%td= best_in_place i, :quantity, as: :input, :html_attrs => { size: '3'}
+								%td= best_in_place c, :notes, as: :textarea
+								%td.text-center
+									= link_to '<i class="fa fa-plus-circle fa-lg"></i> Add 1'.html_safe, inventory_path(i, :machine_id => i.machine_id, :card_id => c.id, :quantity => q, :status => 'add'), :method => :put, class: 'btn btn-primary'
+									= link_to '<i class="fa fa-minus-circle fa-lg"></i> Subtract 1'.html_safe, inventory_path(i, :machine_id => i.machine_id, :card_id => c.id, :quantity => nq, :status => 'subtract'), :method => :put, class: 'btn btn-warning'
+									= link_to '<i class="fa fa-trash fa-lg"></i> Delete'.html_safe,  inventory_path(i),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 		= smart_listing.paginate
 	- else
 		%p.warning No records!
@@ -56,24 +57,32 @@
 	- unless smart_listing.empty?
 		%table.table.table-bordered.table-hover
 			%thead
-				%th Card Set (click to view all cards in set)
-				%th Card Name (click to view machines that have this card)
+				%th Set
+				%th Card
 				%th Total Count
 				%th Notes
-				%th Add Inventory
-				%th Edit Card
-				%th Delete Card
+				%th.text-center Actions
 
 			%tbody
 				- smart_listing.collection.each do |c|
 					%tr
-						%td= link_to c.card_set.name, card_set_cards_path(c.card_set)
-						%td= link_to c.name, card_path(c)
+						%td
+							= link_to '<i class="fa fa-eye fa-lg"></i>'.html_safe, card_set_cards_path(c.card_set)
+							= c.card_set.name
+						%td
+							=link_to '<i class="fa fa-eye fa-lg"></i>'.html_safe, card_path(c)
+							= best_in_place c, :name, as: :input, :html_attrs => { size: '50%'}
 						%td= c.inventories.present? ? c.inventories.map(&:quantity).sum : "Sold Out"
-						%td= c.notes
-						%td= link_to 'Add Inventory', new_inventory_path(:card_id => c.id), class: 'btn btn-success'
-						%td= link_to 'Edit Card', edit_card_path(id: c.id), class: 'btn btn-success'
-						%td= link_to 'Delete Card',  card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+						%td= best_in_place c, :notes, as: :textarea
+						%td.text-center
+							= link_to '<i class="fa fa-plus-circle fa-lg"></i> Add Inventory'.html_safe, new_inventory_path(:card_id => c.id), class: 'btn btn-success'
+							= link_to '<i class="fa fa-trash fa-lg"></i> Delete'.html_safe,  card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 		= smart_listing.paginate
 	- else
 		%p.warning No records!
+
+:javascript
+	$(document).ready(function() {
+	  /* Activating Best In Place */
+	  jQuery(".best_in_place").best_in_place();
+	});

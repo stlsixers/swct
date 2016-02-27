@@ -1,12 +1,16 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => {registrations: 'registrations'}
+
   root 'pages#home'
+
   resources :card_sets do
     resources :cards
   end
+
   resources :machines do
     resources :cards
   end
+  
   resources :cards
 
   get 'inventories/update_cards', as: 'update_cards'
