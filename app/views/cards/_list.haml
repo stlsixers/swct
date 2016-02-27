@@ -3,10 +3,10 @@
 		%table.table.table-bordered.table-hover
 			%thead
 				%tr 
-					%th Card
-					%th Total Count
-					%th Notes
-					%th.text-center Actions
+					%th.col-md-5 Card
+					%th.col-md-1 Total Count
+					%th.col-md-3 Notes
+					%th.col-md-3.text-center Actions
 			%tbody
 				- smart_listing.collection.each do |c|
 					%tr
@@ -25,11 +25,11 @@
 	- unless smart_listing.empty?
 		%table.table.table-bordered.table-hover
 			%thead
-				%th Set
-				%th Card
-				%th Quantity
-				%th Notes
-				%th.text-center Actions
+				%th.col-md-2 Set
+				%th.col-md-3 Card
+				%th.col-md-1 Quantity
+				%th.col-md-2 Notes
+				%th.col-md-4.text-center Actions
 
 			%tbody
 				- smart_listing.collection.each do |c|
@@ -57,11 +57,11 @@
 	- unless smart_listing.empty?
 		%table.table.table-bordered.table-hover
 			%thead
-				%th Set
-				%th Card
-				%th Total Count
-				%th Notes
-				%th.text-center Actions
+				%th.col-md-2 Set
+				%th.col-md-4 Card
+				%th.col-md-1 Total Count
+				%th.col-md-2 Notes
+				%th.col-md-3.text-center Actions
 
 			%tbody
 				- smart_listing.collection.each do |c|
@@ -72,8 +72,10 @@
 						%td
 							=link_to '<i class="fa fa-eye fa-lg"></i>'.html_safe, card_path(c)
 							= best_in_place c, :name, as: :input, :html_attrs => { size: '50%'}
-						%td= c.inventories.present? ? c.inventories.map(&:quantity).sum : "Sold Out"
-						%td= best_in_place c, :notes, as: :textarea
+						%td
+							= c.inventories.present? ? c.inventories.map(&:quantity).sum : "Sold Out"
+						%td
+							= best_in_place c, :notes, as: :textarea
 						%td.text-center
 							= link_to '<i class="fa fa-plus-circle fa-lg"></i> Add Inventory'.html_safe, new_inventory_path(:card_id => c.id), class: 'btn btn-success'
 							= link_to '<i class="fa fa-trash fa-lg"></i> Delete'.html_safe,  card_path(id: c.id),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
