@@ -23,4 +23,11 @@
 $(document).ready(function() {
   /* Activating Best In Place */
   jQuery(".best_in_place").best_in_place();
+  $('.best_in_place').best_in_place().bind('ajax:success', function(evt, data, status, xhr) {
+    console.dir(evt);
+    console.dir(data);
+    console.dir(status);
+    console.dir(xhr);
+     // Use them how ever you need eg $("#yourdiv").text(data["message"]);
+  }); 
 });

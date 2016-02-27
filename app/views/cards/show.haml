@@ -16,8 +16,6 @@
 			%thead
 				%th Machine # & Account
 				%th Quantity
-				%th Add +1
-				%th Remove -1
 				%th.text-center Actions
 
 			%tbody
@@ -28,10 +26,10 @@
 							- q = @query.quantity+1
 							- nq = @query.quantity-1
 							%td= link_to " #" + i.number.to_s + " (" + i.swct_name.to_s + ")", machine_cards_path(i)
-							%td= best_in_place @query, :quantity, as: :input, :html_attrs => { size: '3'}
-							%td= link_to '<i class="fa fa-plus-circle fa-2x"></i>'.html_safe, inventory_path(@query, :machine_id => i.id, :card_id => @card.id, :quantity => q, :status => 'add'), :method => :put
-							%td= link_to '<i class="fa fa-minus-circle fa-2x"></i>'.html_safe, inventory_path(@query, :machine_id => i.id, :card_id => @card.id, :quantity => nq, :status => 'subtract'), :method => :put
+							%td= best_in_place @query, :quantity, as: :input, :html_attrs => { size: '3'}, class: 'quantity'
 							%td.text-center
+								= link_to '<i class="fa fa-plus-circle fa-lg"></i> Add 1'.html_safe, inventory_path(@query, :machine_id => i.id, :card_id => @card.id, :quantity => q, :status => 'add'), :method => :put, class: 'btn btn-primary'
+								= link_to '<i class="fa fa-minus-circle fa-lg"></i> Subtract 1'.html_safe, inventory_path(@query, :machine_id => i.id, :card_id => @card.id, :quantity => nq, :status => 'subtract'), :method => :put, class: 'btn btn-warning'
 								= link_to 'Swap', swap_path(:card_id => @card.id, :machine_id => i.id, :id => @query.id), class: 'btn btn-success'
 								= link_to '<i class="fa fa-trash fa-lg"></i> Delete'.html_safe,  inventory_path(@query),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 - else
@@ -44,6 +42,6 @@
 	  /* Activating Best In Place */
 	  jQuery(".best_in_place").best_in_place();
 	  $('.quantity').change(function() {
-			location.reload();
+			window.location.reload();
 		});
 	});
