@@ -31,13 +31,23 @@ class CardSetsController < ApplicationController
 
 	def update
 		@card_set = CardSet.find(params[:id])
-		if @card_set.update_attributes(card_set_params)
-			flash[:notice] = "Card set successfully updated."
-			redirect_to card_set_cards_path(@card_set)
-		else
-			flash.now[:error] = "Card set was not updated successfully. Please do not leave the name blank."
-			render :edit
-		end
+
+		respond_to do |format|
+	    if @card_set.update_attributes(card_set_params)
+	      format.html { redirect_to(@card_set, :notice => 'Card set was successfully updated.') }
+	      format.json { respond_with_bip(@card_set) }
+	    else
+	      format.html { render :action => "edit" }
+	      format.json { respond_with_bip(@card_set) }
+	    end
+  	end
+		# if @card_set.update_attributes(card_set_params)
+		# 	flash[:notice] = "Card set successfully updated."
+		# 	redirect_to card_set_cards_path(@card_set)
+		# else
+		# 	flash.now[:error] = "Card set was not updated successfully. Please do not leave the name blank."
+		# 	render :edit
+		# end
 	end
 
 	def destroy
@@ -73,7 +83,7 @@ class CardSetsController < ApplicationController
 
 	private
 	def card_set_params
-		params.require(:card_set).permit(:name)
+		params.require(:card_set).permit(:name, :notes)
 	end
 
 end

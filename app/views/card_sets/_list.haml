@@ -1,18 +1,26 @@
 - unless smart_listing.empty?
-  %table.table.table-bordered.table-hover
+  %table.table.table-bordered.table-hover.text-center
     %thead
-      %tr 
-        %th= smart_listing.sortable "Set Name (click to view all cards in set)", :name
-        %th Add Card to Set
-        %th Edit Card Set Name
-        %th Delete Card Set
+      %tr.text-center
+        %th= smart_listing.sortable "Set Name", :name
+        %th Notes
+        %th.text-center Actions
     %tbody
       - smart_listing.collection.each do |c|
         %tr
-          %td= link_to c.name, card_set_cards_path(c)
-          %td= link_to 'Add New Card', new_card_set_card_path(c), class: 'btn btn-primary'
-          %td= link_to 'Edit Card Set Name', edit_card_set_path(c), class: 'btn btn-success'
-          %td= link_to 'Delete Card Set',  card_set_path(c),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+          %td.text-left
+            = link_to '<i class="fa fa-eye fa-lg"></i>'.html_safe, card_set_cards_path(c)
+            = best_in_place c, :name, as: :input, :html_attrs => {:size => 100}
+          %td= best_in_place c, :notes, as: :textarea
+          %td
+            = link_to '<i class="fa fa-plus-circle fa-lg"></i> Add Card'.html_safe, new_card_set_card_path(c)
+            = link_to '<i class="fa fa-trash fa-lg"></i> Delete Set'.html_safe,  card_set_path(c),  method: :delete, data: { confirm: 'Are you sure?' }
   = smart_listing.paginate
 - else
   %p.warning No records!
+
+:javascript
+$(document).ready(function() {
+  /* Activating Best In Place */
+  jQuery(".best_in_place").best_in_place();
+});

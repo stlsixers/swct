@@ -14,7 +14,6 @@ class InventoriesController < ApplicationController
 
 	def new
 		@inventory = []
-		# just a quick workaround
 		@inventory << Inventory.new
 		@card_sets = CardSet.all.order(:name)
 		@cards = Card.all.order(:name)
@@ -54,7 +53,6 @@ class InventoriesController < ApplicationController
 
 				elsif Inventory.find_by_card_id_and_machine_id(params[:card_id], i[:machine_id]).nil?
 					Inventory.create(:card_id => params[:card_id], :machine_id => i[:machine_id], :quantity => i[:quantity]).save
-					# dont do it this way
 				else
 					inventory = Inventory.find_by_card_id_and_machine_id(params[:card_id], i[:machine_id])
 					quantity = inventory.quantity + i[:quantity].to_i
@@ -65,18 +63,6 @@ class InventoriesController < ApplicationController
 			flash[:notice] = "Pull successfully listed"
 			redirect_to inventories_path
 
-			# if @inventory.save
-			# 	flash[:notice] = "Pull successfully listed"
-			# 	redirect_to inventories_path
-			# else
-			# 	flash[:error] = "Please don't leave any fields blank"
-			# 	redirect_to inventories_path
-			# end
-
-		# else
-		# 	flash[:error] = "Inventory for that card in the device already exists. Please edit the device count"
-		# 	redirect_to inventories_path
-		# end
 	end
 
 	def edit
@@ -86,7 +72,7 @@ class InventoriesController < ApplicationController
 
 	def update
 		if params[:swap]
-			# look for better way to do this using whitelisted paramters
+			
 			@inventory = Inventory.find(params[:id])
 			@inventory.quantity -= params[:quantity].to_i
 			@inventory.update_attribute('quantity', @inventory.quantity)

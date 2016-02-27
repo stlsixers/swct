@@ -28,6 +28,7 @@ gem 'font-awesome-rails'
 gem 'smart_listing'
 gem 'paper_trail', '~> 4.0.0'
 gem 'select2-rails'
+gem 'best_in_place', '~> 3.0.1'
 
 #Use postgresql as the database for production
 group :production do

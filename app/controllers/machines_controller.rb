@@ -14,9 +14,13 @@ class MachinesController < ApplicationController
 
 	def create
 		@machine = Machine.create(machine_params)
-		@machine.save
-		flash[:notice] = "Machine successfully created"
-		redirect_to machines_path
+		if @machine.save
+			flash[:notice] = "Machine successfully created"
+			redirect_to machines_path
+		else
+			flash.now[:error] = "Machine was not created successfully. Please enter a name/number."
+			render :new
+		end
 	end
 
 	def edit

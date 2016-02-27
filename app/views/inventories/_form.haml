@@ -44,20 +44,6 @@
 				
 			= submit_tag 'Submit', class: 'btn btn-default', data: { disable_with: "Please wait..." }
 
-		/ = form_tag quantity_path, method: :post do |f|
-		/ .form-group
-
-		/ 	= label_tag :card_id, 'Card', class: 'control-label'
-		/ 	= select_tag :card_id, grouped_options_for_select(@grouped_card_sets), class: 'form-control cool-dropdown', id: 'cards_select'
-
-		/ 	= label_tag :machine_id, 'Machine', class: 'control-label'
-		/ 	= select_tag :machine_id, grouped_options_for_select(@grouped_machines), {:multiple => true, class: 'form-control cool-dropdown', id: 'machines_select'}
-
-		/ 	= label_tag :quantity, 'Quantity', class: 'control-label'
-		/ 	= text_field_tag :quantity, "", class: 'form-control'
-			
-		/ = submit_tag 'Submit', class: 'btn btn-default'
-
 - else
 	%h4= Card.find(@inventory.card_id).name + " " + Category.find(Machine.find(@inventory.machine_id).category).try(:title) + " " + Machine.find(@inventory.machine_id).number.to_s
 	= form_for @inventory do |f|
